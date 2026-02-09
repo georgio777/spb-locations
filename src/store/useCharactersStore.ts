@@ -1,5 +1,6 @@
 import axios from "axios";
 import { create } from "zustand";
+import { apiUrlAllCharacters, apiUrlCharacterData, apiUrlDescriptions } from "../api/api";
 
 export interface Coords {
   lat: number;
@@ -43,7 +44,6 @@ interface UseCharactersStore {
   fetchAllCharacters: () => void;
 };
 
-const apiUrlAllCharacters = import.meta.env.VITE_API_All_CHARACTERS_URL;
 
 export const useCharactersStore = create<UseCharactersStore>((set) => ({
   allCharacters: null,
@@ -55,8 +55,7 @@ export const useCharactersStore = create<UseCharactersStore>((set) => ({
     try {
       const response = await axios.get(apiUrlAllCharacters);
       set({ allCharacters: response.data });
-      console.log(response.data);
-      
+
     } catch (err) {
       let errorMessage = 'Неизвестная ошибка';
 
@@ -97,9 +96,9 @@ interface UseCurrentCharacterStore {
   error: string | null;
   /**
    * устанавливает интересуемую в данный момент локацию принимая сокращенный объект локации
-   * @param info объект локации локации
+   * @param character объект локации
    */
-  setCurrentCharacter: (info: Character) => void;
+  setCurrentCharacter: (character: Character) => void;
   /**
    * получает и записывает всю информацию по локации по id
    * @param id id локации
@@ -107,21 +106,18 @@ interface UseCurrentCharacterStore {
   fetchCompleteLocation: (id: number) => void;
 }
 
-const apiUrlDescriptions = import.meta.env.VITE_API_CURRENT_CHARACTERS_URL;
-const apiUrlCharacterData = import.meta.env.VITE_API_CURRENT_CHARACTER_FULL_URL;
-
 export const useCurrentCharacterStore = create<UseCurrentCharacterStore>((set) => ({
   currentCharacter: null,
   loading: false,
   error: null,
 
-  setCurrentCharacter: async (info: Character) => {
+  setCurrentCharacter: async (character: Character) => {
     set({ loading: true, error: null });
 
     // запрашиваем подробные данные у сервера
     try {
-      const response = await axios.get(`${apiUrlDescriptions}/${info.id}`);
-      set({ currentCharacter: {...info, ...response.data} });
+      const response = await axios.get(`${apiUrlDescriptions}${character.id}`);
+      set({ currentCharacter: {...character, ...response.data} });
     } catch (err) {
       let errorMessage = 'Неизвестная ошибка';
 
@@ -133,7 +129,7 @@ export const useCurrentCharacterStore = create<UseCurrentCharacterStore>((set) =
 
       set({ error: errorMessage });
       // в случае неудачного запроса заполняем той информацией что уже имеется
-      set({ currentCharacter: info })
+      set({ currentCharacter: character })
 
     } finally {
       set({ loading: false });
