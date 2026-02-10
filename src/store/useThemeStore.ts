@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { THEME_KEY } from "../config/config";
 
 type Theme = 'light' | 'dark';
 
@@ -6,7 +7,7 @@ type Theme = 'light' | 'dark';
 const getInitialTheme = (): Theme => {
   // 1. Проверяем LS (нужно обернуть в try-catch для безопасности)
   try {
-    const saved = localStorage.getItem('THEME_KEY'); // замени на свою константу
+    const saved = localStorage.getItem(THEME_KEY);
     if (saved) return JSON.parse(saved) as Theme;
   } catch (e) {
     console.error("Error reading theme from LS", e);
@@ -27,7 +28,6 @@ interface UseThemeStore {
 }
 
 export const useThemeStore = create<UseThemeStore>((set) => ({
-  // Теперь здесь сразу будет правильное значение (dark или light)
   theme: getInitialTheme(), 
   setTheme: (theme: Theme) => set({ theme })
 }));

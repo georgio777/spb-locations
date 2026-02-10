@@ -1,6 +1,6 @@
 import { Map } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type {MapEvent, MapLayerMouseEvent, MapRef, LngLatBoundsLike} from 'react-map-gl/maplibre';
 import { useMapStore } from '../../store/useMapStore';
 import PopUpComponent from './PopUpComponent';
@@ -25,11 +25,6 @@ const MapComponent = () => {
   const setMap = useMapStore(state => state.setMap);
   const [ popUpData, setPopupData ] = useState<PopupData | null>(null);
   const theme = useThemeStore(state => state.theme);
-
-  useEffect(() => {
-    console.log(theme);
-    
-  }, [theme]);
 
   const onMapLoad = useCallback((evt: MapEvent) => {
     const map = evt.target as unknown as MapRef;
