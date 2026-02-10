@@ -1,0 +1,1 @@
+export const THEME_KEY = 'PREFERRED_COLOR_SCHEME';

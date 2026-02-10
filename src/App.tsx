@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
 import './App.css'
-import { useCharactersStore, useCurrentCharacterStore } from './store/useCharactersStore'
+import { useMapStore } from './store/useMapStore';
+import MainLoader from './components/MainLoader';
+import MainContent from './components/MainContent';
+import { useTheme } from './hooks/useTheme';
+
 
 function App() {
-  const fetch1 = useCharactersStore(state => state.fetchAllCharacters);
-  const fetch2 = useCurrentCharacterStore(state => state.fetchCompleteLocation)
-
-  useEffect(() => {
-    fetch1()
-    fetch2(36)
-  }, []);
-
+  useTheme();
+  const isMapReady = useMapStore(state => state.isReady);
   return (
     <>
+      <MainContent/>
+      { !isMapReady && <MainLoader /> }
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

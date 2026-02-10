@@ -1,0 +1,15 @@
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+}
+
+/* Если атрибут dark */
+[data-theme='dark'] {
+  --bg: #1a1a1a;
+  --text: #ffffff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
