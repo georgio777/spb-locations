@@ -1,0 +1,19 @@
+.sidebar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: 40vw;
+  border: 1px solid red;
+
+    /* Твой основной цвет фона */
+  background-color: var(--textured-bg-color); 
+  
+  /* Вставляем шум как фоновое изображение */
+  background-image: var(--textured-bg-url);
+  
+  /* Чтобы текстура повторялась, если сайдбар длинный */
+  background-repeat: repeat;
+  background-size: 700px 700px;
+}
+
