@@ -1,0 +1,17 @@
+.toolbar-button {
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.445);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: .1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-button:active {
+  transform: scale(2);
+  background-color: rgba(255, 255, 255, 0.108);
+}

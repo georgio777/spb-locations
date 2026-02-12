@@ -1,10 +1,11 @@
-import { Layer, Map, Source } from 'react-map-gl/maplibre';
+import { GeolocateControl, Layer, Map, NavigationControl, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useState } from 'react';
 import type {MapEvent, MapLayerMouseEvent, MapRef, LngLatBoundsLike} from 'react-map-gl/maplibre';
 import { useMapStore } from '../../store/useMapStore';
 import PopUpComponent from './PopUpComponent';
 import { useThemeStore } from '../../store/useThemeStore';
+import type maplibregl from 'maplibre-gl';
 
 
 const mapStyles: Record<'light' | 'dark', string> = {
@@ -43,14 +44,13 @@ const MapComponent = () => {
   const setMap = useMapStore(state => state.setMap);
   const [ popUpData, setPopupData ] = useState<PopupData | null>(null);
   const theme = useThemeStore(state => state.theme);
-
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const setGeolocate = useMapStore(state => state.setGeolocate);
 
   const onMapLoad = useCallback(async (evt: MapEvent) => {
     const map = evt.target as unknown as MapRef;
     
     setMap(map);
-
     // Обработка текстурного слоя
     try {
       // 1. Ждем загрузки через await
@@ -66,8 +66,15 @@ const MapComponent = () => {
     } catch (error) {
       console.error('Ошибка при загрузке текстуры:', error);
     }
-
+    
   }, [setMap]);
+
+  //сохраняем в стор
+  const onGeolocateRef = useCallback((instance: maplibregl.GeolocateControl | null) => {
+    if (instance) {
+      setGeolocate(instance);
+    }
+  }, [setGeolocate]);
 
   const onContextMenu = useCallback((e: MapLayerMouseEvent) => {
     setPopupData({
@@ -102,6 +109,13 @@ const MapComponent = () => {
             }}
           />
         </Source>)} 
+        <GeolocateControl 
+          style={{ display: 'none' }} // Скрываем оригинальную кнопку
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+          ref={onGeolocateRef}
+        />
+        <NavigationControl style={{ display: 'none'}} />
         { popUpData && <PopUpComponent popUpData={popUpData} onClose={() => setPopupData(null)}/>}
       </Map>
     </>
