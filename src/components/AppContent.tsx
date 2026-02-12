@@ -1,13 +1,14 @@
+import { LiquidSVG } from './data-containers/LiquidBackground';
 import MapComponent from './map/MapComponent';
-import { ThemeToggle } from './ThemeToggle';
 import { UI } from './UI';
 
 const AppContent = () => {
   return (
     <>
+      {/* LiquidSVG загружаем один раз. Нужен для LiquidContainer */}
+      <LiquidSVG /> 
       <MapComponent/>
       <UI />
-      <ThemeToggle />
     </>
   );
 };

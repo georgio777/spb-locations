@@ -51,6 +51,7 @@ const MapComponent = () => {
     
     setMap(map);
 
+    // Обработка текстурного слоя
     try {
       // 1. Ждем загрузки через await
       const response = await map.loadImage('/paper17.png');
@@ -90,17 +91,17 @@ const MapComponent = () => {
         mapStyle={mapStyles[theme || 'light']}
         onContextMenu={onContextMenu}
       >
-  {isImageLoaded && (
-    <Source id="spb-paper-source" type="geojson" data={spbPolygon}>
-      <Layer
-        id="paper-layer"
-        type="fill"
-        paint={{
-          'fill-pattern': 'paper-texture',
-          'fill-opacity': theme === 'light' ? 0.9 : 0.2
-        }}
-      />
-    </Source>)}
+      {isImageLoaded && (
+        <Source id="spb-paper-source" type="geojson" data={spbPolygon}>
+          <Layer
+            id="paper-layer"
+            type="fill"
+            paint={{
+              'fill-pattern': 'paper-texture',
+              'fill-opacity': theme === 'light' ? 0.9 : 0.2
+            }}
+          />
+        </Source>)} 
         { popUpData && <PopUpComponent popUpData={popUpData} onClose={() => setPopupData(null)}/>}
       </Map>
     </>

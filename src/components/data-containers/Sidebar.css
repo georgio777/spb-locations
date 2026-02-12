@@ -7,7 +7,7 @@
   border: 6px double var(--border-color);
   padding: 4px;
 
-    /* Твой основной цвет фона */
+  /* основной цвет фона */
   background-color: var(--textured-bg-color); 
   
   /* Вставляем шум как фоновое изображение */
