@@ -1,7 +1,10 @@
 import { Sidebar } from "./data-containers/Sidebar";
+import './UI.css';
 
 export const UI = () => {
   return (
-    <Sidebar />
+    <div className="ui-container">
+      <Sidebar />
+    </div>
   );
 };
