@@ -6,18 +6,8 @@
   width: 40vw;
   border: 6px double var(--border-color);
   padding: 4px;
-
-  /* основной цвет фона */
-  background-color: var(--textured-bg-color); 
-  
-  /* Вставляем шум как фоновое изображение */
-  background-image: var(--textured-bg-url);
-  
-  /* Чтобы текстура повторялась, если сайдбар длинный */
-  background-repeat: repeat;
-  background-size: 700px 700px;
   pointer-events: all;
-  display: none;
+  /* display: none; */
 }
 
 

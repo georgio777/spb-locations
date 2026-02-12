@@ -8,9 +8,11 @@ interface PopUpComponentProps {
 
 const PopUpComponent = ({popUpData, onClose}: PopUpComponentProps) => {
   return (
-    <Popup longitude={popUpData.lng} latitude={popUpData.lat}
-      anchor="bottom"
-      onClose={onClose}>
+    <Popup 
+    longitude={popUpData.lng} 
+    latitude={popUpData.lat}
+    anchor="bottom"
+    onClose={onClose}>
       <p>Широта: {popUpData.lat}</p>
       <p>Долгота: {popUpData.lng}</p>
     </Popup>
