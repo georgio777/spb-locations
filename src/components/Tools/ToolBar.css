@@ -11,11 +11,13 @@
   align-items: center;
 }
 
+.toolbar-button:hover {
+  background-color: rgba(255, 255, 255, 0.295);
+  transform: scale(1.2);
+}
+
 .toolbar-button:active {
   transform: scale(2);
   background-color: rgba(255, 255, 255, 0.108);
-}
-
-.toolbar-button:hover {
-  background-color: rgba(255, 255, 255, 0.295)
+  z-index: 3;
 }
