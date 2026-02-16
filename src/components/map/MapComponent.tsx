@@ -6,6 +6,7 @@ import { useMapStore } from '../../store/useMapStore';
 import PopUpComponent from './PopUpComponent';
 import { useThemeStore } from '../../store/useThemeStore';
 import type maplibregl from 'maplibre-gl';
+import { FetchLocations } from './FetchLocations';
 
 
 const mapStyles: Record<'light' | 'dark', string> = {
@@ -117,6 +118,7 @@ const MapComponent = () => {
         />
         <NavigationControl style={{ display: 'none'}} />
         { popUpData && <PopUpComponent popUpData={popUpData} onClose={() => setPopupData(null)}/>}
+        <FetchLocations />
       </Map>
     </>
   );

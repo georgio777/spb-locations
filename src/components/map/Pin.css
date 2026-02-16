@@ -1,0 +1,46 @@
+.pin-wrapper {
+  display: flex;
+  width: 44px;
+}
+
+.pin-img {
+  cursor: pointer;
+  transition: transform .2s;
+  transform-origin: 100% 100%;
+}
+
+.pin-img:hover {
+  transform: scale(1.2);
+}
+
+.cluster-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.cluster-img {
+  width: 44px;
+  min-width: 44px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  z-index: -1;
+}
+
+.cluster-count {
+  width: 30px;
+  aspect-ratio: 1/1;
+  border: 2px solid rgb(203, 7, 7);
+  border-radius: 100%;
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform .2s;
+}
+
+.cluster-wrapper:hover .cluster-count {
+  transform: scale(1.2);
+}
