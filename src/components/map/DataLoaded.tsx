@@ -64,6 +64,28 @@ const DataLoaded = ({allCharacters}: {allCharacters: Character[]}) => {
         // Рендерим КЛАСТЕР
         if (isCluster) {
           const { point_count: pointCount } = cluster.properties;
+
+          // Если достигнут максимальный зум, а точки всё еще в кластере
+          if (zoom >= 17) {
+            const leaves = supercluster?.getLeaves(cluster.id as number, Infinity) || [];
+
+            return leaves.map((leaf, index) => {
+              const angle = (index / leaves.length) * 2 * Math.PI;
+              const radius = 0.0001; // Небольшое смещение координат
+              const spiderLng = longitude + Math.cos(angle) * radius;
+              const spiderLat = latitude + Math.sin(angle) * radius;
+
+              return (
+                <Marker 
+                  key={`spider-${leaf.properties.characterId}`} 
+                  longitude={spiderLng} 
+                  latitude={spiderLat}
+                >
+                  <Pin character={leaf.properties.data} />
+                </Marker>
+              );
+            });
+          }
           return (
             <Marker 
             key={`cluster-${cluster.id}`} 
