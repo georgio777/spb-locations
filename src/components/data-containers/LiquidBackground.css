@@ -1,5 +1,5 @@
 .bg-liquid-glass {
-  border: 2px solid rgba(255, 255, 255, 0.258);
+  border: 2px solid rgba(255, 255, 255, 0.427);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   @apply bg-muted/25;
@@ -7,6 +7,6 @@
 
 @supports not (hanging-punctuation:first) {
   .bg-liquid-glass {
-    backdrop-filter: url(#displacementFilter) blur(2px);
+    backdrop-filter: url(#displacementFilter) blur(1px);
   }
 }
