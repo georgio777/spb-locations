@@ -1,7 +1,7 @@
 import './Sidebar.css';
 import { useIsMobileStore } from '../../store/useIsMobileStore';
 import { useEffect, useRef, useState } from 'react';
-import { LiquidBackground } from './LiquidBackground';
+import { BlurryBackground } from './BlurryBackground';
 import { motion } from 'framer-motion';
 import { SideBarContent } from './SideBarContent';
 import { useCurrentCharacterStore } from '../../store/useCharactersStore';
@@ -47,12 +47,12 @@ const ToggleButton = ({isMobile, isOpen, toggleOpen} : {isMobile: boolean, isOpe
       aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
       onClick={toggleOpen}
       >
-        <LiquidBackground 
-        className='sidebar-toggle-liquid'
+        <BlurryBackground 
+        className='sidebar-toggle-blurry'
         elementTag={'div'}>
           <ToggleArrowVertical isOpen={isOpen} />
           {/* <ToggleArrowVertical isOpen={isOpen} /> */}
-        </LiquidBackground>
+        </BlurryBackground>
     </button>
   )
 };

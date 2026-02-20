@@ -1,0 +1,6 @@
+.bg-Blurry-glass {
+  background-color: var(--blur-bg);
+  backdrop-filter: blur(1px);
+  border: 1px solid var(--blur-border);
+  box-shadow: 0px 0px 2px 1px inset var(--blur-border);
+}
