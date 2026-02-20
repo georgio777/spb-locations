@@ -1,12 +1,16 @@
-import type { Character } from '../../store/useCharactersStore';
+import { useCurrentCharacterStore, type Character } from '../../store/useCharactersStore';
 import pin from '../../assets/pin.svg';
 import './Pin.css'
 
 export const Pin = ({character}: {character: Character}) => {
+  const setCurrentCharacter = useCurrentCharacterStore(state => state.setCurrentCharacter);
+  const onClick = () => {
+    setCurrentCharacter(character);
+  }
   return (
-    <div className='pin-wrapper'>
-      <img className='pin-img' src={pin} alt={character.title} title={character.title} />
-    </div>
+    <button onClick={onClick} className='pin-wrapper' title={character.title} aria-label={character.title}>
+      <img className='pin-img' src={pin} aria-hidden="true" alt={character.title} />
+    </button>
   );
 };
 

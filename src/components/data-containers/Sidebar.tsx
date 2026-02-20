@@ -3,6 +3,8 @@ import { useIsMobileStore } from '../../store/useIsMobileStore';
 import { useEffect, useRef, useState } from 'react';
 import { LiquidBackground } from './LiquidBackground';
 import { motion } from 'framer-motion';
+import { SideBarContent } from './SideBarContent';
+import { useCurrentCharacterStore } from '../../store/useCharactersStore';
 
 const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   const midX = isOpen ? 10 : 1;
@@ -55,32 +57,14 @@ const ToggleButton = ({isMobile, isOpen, toggleOpen} : {isMobile: boolean, isOpe
   )
 };
 
-const desctopStyle = {
-  width: '40vw',
-  height: '100%',
-  top: 0,
-  right: 0,
-  bottom: 0
-}
-
-const mobileStyle = {
-  width: '100vw',
-  height: '70dvh',
-  top: 'auto',
-  right: 0,
-  bottom: 0
-}
-
 const getStyle = (isMobile: boolean, isOpen: boolean) => {
   if (isMobile) {
     return {
-      ...mobileStyle,
-      transform: isOpen ? 'translateY(0)' : 'translateY(100%)'
+      transform: isOpen ? 'translateY(-100%)' : 'translateY(0)'
     }
   } else {
     return {
-      ...desctopStyle,
-      transform: isOpen ? 'translateX(0)' : 'translateX(100%)'
+      transform: isOpen ? 'translateX(-100%)' : 'translateX(0)'
     }
   }
 };
@@ -89,7 +73,16 @@ const getStyle = (isMobile: boolean, isOpen: boolean) => {
 export const Sidebar = () => {
   const isMobile = useIsMobileStore(state => state.isMobile);
   const [ isOpen, setIsOpen ] = useState(false);
-  const sideBarRef = useRef<HTMLElement | null>(null)
+  const sideBarRef = useRef<HTMLElement | null>(null);
+  const currentCharacter = useCurrentCharacterStore(state => state.currentCharacter);
+  // Храним ID последнего персонажа, для которого мы "авто-открыли" сайдбар
+  const [lastSelectedId, setLastSelectedId] = useState(currentCharacter?.id);
+
+  // Если ID изменился — значит кликнули на новый маркер
+  if (currentCharacter && currentCharacter.id !== lastSelectedId) {
+    setLastSelectedId(currentCharacter.id);
+    setIsOpen(true);
+  }
 
   useEffect(() => {
     const node = sideBarRef.current;
@@ -125,7 +118,9 @@ export const Sidebar = () => {
       style={style} 
       role="complementary" aria-label='Меню локаций' 
       className='sidebar textured-bg'>
-        <div className="sidebar-inner"></div>
+        <div className="sidebar-inner">
+          <SideBarContent />
+        </div>
       </aside>
       <ToggleButton isMobile={isMobile} isOpen={isOpen}  toggleOpen={toggleOpen}/>
     </>
