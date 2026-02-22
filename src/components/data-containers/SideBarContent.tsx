@@ -1,8 +1,8 @@
-import { useCurrentCharacterStore } from '../../store/useCharactersStore'
+// import { useCurrentCharacterStore } from '../../store/useCharactersStore'
 
 export const SideBarContent = () => {
-  const currentCharacter = useCurrentCharacterStore(state => state.currentCharacter);
+  // const currentCharacter = useCurrentCharacterStore(state => state.currentCharacter);
   return (
-    <div>{ currentCharacter ? currentCharacter.descriptions[0].heading : 'пока пусто'}</div>
+    <div></div>
   );
 };

@@ -1,11 +1,10 @@
-import { GeolocateControl, Layer, Map, NavigationControl, Source } from 'react-map-gl/maplibre';
+import { Layer, Map, NavigationControl, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useCallback, useState } from 'react';
 import type {MapEvent, MapLayerMouseEvent, MapRef, LngLatBoundsLike} from 'react-map-gl/maplibre';
 import { useMapStore } from '../../store/useMapStore';
 import PopUpComponent from './PopUpComponent';
 import { useThemeStore } from '../../store/useThemeStore';
-import type maplibregl from 'maplibre-gl';
 import { FetchLocations } from './FetchLocations';
 
 
@@ -41,17 +40,22 @@ export interface PopupData {
   lng: number;
 };
 
-const MapComponent = () => {
-  const setMap = useMapStore(state => state.setMap);
+interface MapComponentProps {
+  initialCoords: [number, number];
+  initialZoom: number;
+}
+
+const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
   const [ popUpData, setPopupData ] = useState<PopupData | null>(null);
   const theme = useThemeStore(state => state.theme);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const setGeolocate = useMapStore(state => state.setGeolocate);
+  const setMapReady = useMapStore(state => state.setMapReady);
 
   const onMapLoad = useCallback(async (evt: MapEvent) => {
-    const map = evt.target as unknown as MapRef;
-    
-    setMap(map);
+    setMapReady();
+
+    const map = evt.target as unknown as MapRef;    
+
     // Обработка текстурного слоя
     try {
       // 1. Ждем загрузки через await
@@ -68,14 +72,7 @@ const MapComponent = () => {
       console.error('Ошибка при загрузке текстуры:', error);
     }
     
-  }, [setMap]);
-
-  //сохраняем в стор
-  const onGeolocateRef = useCallback((instance: maplibregl.GeolocateControl | null) => {
-    if (instance) {
-      setGeolocate(instance);
-    }
-  }, [setGeolocate]);
+  }, [setMapReady]);
 
   const onContextMenu = useCallback((e: MapLayerMouseEvent) => {
     setPopupData({
@@ -87,10 +84,11 @@ const MapComponent = () => {
   return (
     <>
       <Map
+        id="myMap"
         initialViewState={{
-          longitude: 30.307209,
-          latitude: 59.937456,
-          zoom: 14
+          longitude: initialCoords[0],
+          latitude: initialCoords[1],
+          zoom: initialZoom
         }}
         onLoad={onMapLoad}
         maxBounds={maxBounds}
@@ -99,23 +97,19 @@ const MapComponent = () => {
         mapStyle={mapStyles[theme || 'light']}
         onContextMenu={onContextMenu}
       >
-      {isImageLoaded && (
-        <Source id="spb-paper-source" type="geojson" data={spbPolygon}>
-          <Layer
-            id="paper-layer"
-            type="fill"
-            paint={{
-              'fill-pattern': 'paper-texture',
-              'fill-opacity': theme === 'light' ? 0.9 : 0.2
-            }}
-          />
-        </Source>)} 
-        <GeolocateControl 
-          style={{ display: 'none' }} // Скрываем оригинальную кнопку
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-          ref={onGeolocateRef}
-        />
+        {/* Текстурный слой на карте */}
+        {isImageLoaded && (
+          <Source id="spb-paper-source" type="geojson" data={spbPolygon}>
+            <Layer
+              id="paper-layer"
+              type="fill"
+              paint={{
+                'fill-pattern': 'paper-texture',
+                'fill-opacity': theme === 'light' ? 0.9 : 0.2
+              }}
+            />
+          </Source>)
+        } 
         <NavigationControl style={{ display: 'none'}} />
         { popUpData && <PopUpComponent popUpData={popUpData} onClose={() => setPopupData(null)}/>}
         <FetchLocations />

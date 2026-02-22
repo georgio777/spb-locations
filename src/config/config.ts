@@ -1,1 +1,3 @@
 export const THEME_KEY = 'PREFERRED_COLOR_SCHEME';
+export const ZOOM_KEY = 'ZOOM_VALUE';
+export const CENTER_COORDS_KEY = 'CENTER_COORDS';

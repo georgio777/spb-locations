@@ -93,8 +93,7 @@ export const Sidebar = () => {
     // Первый кадр: фиксируем состояние "без анимации"
     const frame1 = requestAnimationFrame(() => {
       // Второй кадр: включаем анимацию обратно
-      // eslint-disable-next-line 
-      const frame2 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         node.dataset.noTransition = "false";
       });
     });

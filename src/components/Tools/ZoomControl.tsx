@@ -1,14 +1,14 @@
-import { useMapStore } from '../../store/useMapStore';
+import { useMap } from 'react-map-gl/maplibre';
 
 export const ZoomControl = ({className}: {className: string}) => {
-  const map = useMapStore(state => state.map);
-
+  const {myMap} = useMap();
+  
   const zoomIn = () => {
-    map?.zoomIn();
+    myMap?.zoomIn() 
   };
 
   const zoomOut = () => {
-    map?.zoomOut();
+    myMap?.zoomOut();
   };
   return (
     <>

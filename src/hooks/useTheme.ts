@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { THEME_KEY } from "../config/config";
 import { useThemeStore } from "../store/useThemeStore";
+import { storage } from "../utils/storage";
 
 export const useTheme = () => {
   const { theme, setTheme } = useThemeStore();
@@ -8,7 +9,7 @@ export const useTheme = () => {
   // Синхронизация атрибута HTML и LocalStorage
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, JSON.stringify(theme));
+    storage.setItem(THEME_KEY, theme);
   }, [theme]);
 
   // Слушатель системных изменений (если пользователь сменил тему системно)
@@ -17,7 +18,7 @@ export const useTheme = () => {
     
     const handleChange = () => {
       // Меняем только если в LS ничего нет (пользователь не выбрал сам)
-      if (!localStorage.getItem(THEME_KEY)) {
+      if (!storage.getItem(THEME_KEY)) {
         setTheme(mediaQuery.matches ? 'dark' : 'light');
       }
     };

@@ -137,3 +137,7 @@ select {
 .maplibregl-popup .maplibregl-popup-close-button {
   display: none;
 }
+
+.maplibregl-control-container {
+  display: none;
+}

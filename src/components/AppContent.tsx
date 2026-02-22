@@ -1,11 +1,11 @@
 import { MapProvider } from 'react-map-gl/maplibre';
-import MapComponent from './map/MapComponent';
 import { UI } from './UI';
+import { MapState } from './map/MapState';
 
 const AppContent = () => {
   return (
     <MapProvider>
-      <MapComponent/>
+      <MapState />
       <UI />
     </MapProvider>
   );
