@@ -33,8 +33,7 @@
 .sidebar-toggle-button {
   position: fixed;
   right: 0;
-  top: 50%;
-  /* transform: translate(0, -50%); */
+  top: 20%;
   cursor: pointer;
   height: 80px;
   width: 30px;
@@ -48,6 +47,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform .2s;
+}
+
+.sidebar-toggle-blurry:hover {
+  transform: scale(1.2);
 }
 
 .sidebar-toggle-blurry svg {
@@ -59,7 +63,7 @@
     left: 0;
     top: 100%;
     width: 100vw;
-    height: 70dvh;
+    height: 80dvh;
   }
   .sidebar-toggle-button {
     position: fixed;

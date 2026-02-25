@@ -2,6 +2,8 @@
 // import { create } from "zustand";
 // import { apiUrlAllCharacters, apiUrlCharacterData, apiUrlDescriptions } from "../api/api";
 
+import { create } from "zustand";
+
 // export interface Coords {
 //   lat: number;
 //   lng: number;
@@ -167,3 +169,13 @@
 //     }
 //   }
 // }));
+
+interface UseCurrentCharacterStore {
+  characterID: number | null;
+  setCharacterID: (id: string | number) => void;
+}
+
+export const useCurrentCharacterStore = create<UseCurrentCharacterStore>((set) => ({
+  characterID: null,
+  setCharacterID: (id) => set({characterID: Number(id) })
+}));

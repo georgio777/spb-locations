@@ -1,0 +1,19 @@
+.characters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.characters-list h2 {
+  font-size: 1rem;
+}
+
+.characters-list__bg {
+  border-radius: 4px;
+  padding: 0.2rem;
+  transition: transform .2s;
+}
+
+.characters-list__bg:hover {
+  transform: scale(1.01);
+}

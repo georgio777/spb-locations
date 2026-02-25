@@ -1,0 +1,14 @@
+.sidebar-content__wrapper {
+  margin: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  height: calc(100% - 3rem);
+}
+
+@media (max-width: 1023px) {
+  .sidebar-content__wrapper {
+    overflow-y: auto;
+  }
+}

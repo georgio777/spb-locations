@@ -46,6 +46,11 @@ svg {
   height: auto;
 }
 
+a {
+  color: var(--text);
+  text-decoration: none;
+}
+
 button,
 input,
 textarea,

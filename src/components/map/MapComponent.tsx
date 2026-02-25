@@ -8,6 +8,7 @@ import { useThemeStore } from '../../store/useThemeStore';
 import { FetchLocations } from './FetchLocations';
 import { ErrorBoundary } from 'react-error-boundary';
 import { LocationsLoader } from '../loaders/Loaders';
+import { useNavigateToLocation } from '../../hooks/NavigateToLocation';
 
 const loaderStyle: React.CSSProperties = {
   position: 'fixed',
@@ -54,7 +55,7 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
   const theme = useThemeStore(state => state.theme);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const setMapReady = useMapStore(state => state.setMapReady);
-
+  useNavigateToLocation();
   const onMapLoad = useCallback(async (evt: MapEvent) => {
     setMapReady();
 

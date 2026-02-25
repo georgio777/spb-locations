@@ -14,3 +14,9 @@
 .ui-container > * {
   pointer-events: all;
 }
+
+@media (max-width: 1023px) {
+  .ui-container {
+    padding: 0.4rem;
+  }
+}

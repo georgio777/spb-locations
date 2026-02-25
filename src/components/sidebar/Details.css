@@ -1,0 +1,38 @@
+.sidebar-details-container {
+  height: 100%;
+  overflow-y: auto;
+  flex-grow: 1;
+  /* цвет ползунка / цвет дорожки */
+  scrollbar-color: #888 var(--textured-bg-color); 
+  /* толщина: auto, thin или none */
+  scrollbar-width: thin; 
+  padding-right: 20px;
+}
+
+.sidebar-details:last-of-type {
+  padding-bottom: 1rem ;
+}
+
+.sidebar-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-details__heading::first-letter {
+  color: var(--red);
+  font-size: 1.25em;
+}
+
+.sidebar-details__paragraph {
+  text-indent: 20px;
+  text-align: justify;
+  hyphens: auto; 
+}
+
+@media (max-width: 1023px) {
+  .sidebar-details-container {
+    padding-right: 10px;
+    overflow-y: visible;
+  }
+}

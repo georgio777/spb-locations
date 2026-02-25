@@ -7,6 +7,7 @@ import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import type { Character, Time } from '../../types/locations.types';
+import { useCurrentCharacterStore } from '../../store/useCharactersStore';
 
 const getImg = (period: Time) => {
   switch (period) {
@@ -34,9 +35,11 @@ const ImagePicker = ({ period = 'Дореволюционный', className }: {
 export const Pin = React.memo(({character}: {character: Character}) => {
   const navigate = useNavigate();
   const [ popupData, setPopupData ] = useState<PopupData | null>(null);  
+  const setID = useCurrentCharacterStore(state => state.setCharacterID);
 
   const onClick = () => {
     navigate(`/${character.slug}/${character.id}`);
+    setID(character.id);
   };
 
   const onHover = () => {
