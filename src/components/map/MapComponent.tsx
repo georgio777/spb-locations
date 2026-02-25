@@ -1,12 +1,21 @@
 import { Layer, Map, NavigationControl, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useCallback, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import type {MapEvent, MapLayerMouseEvent, MapRef, LngLatBoundsLike} from 'react-map-gl/maplibre';
 import { useMapStore } from '../../store/useMapStore';
-import PopUpComponent from './PopUpComponent';
+import PopUpComponent, { type PopupData } from './PopUpComponent';
 import { useThemeStore } from '../../store/useThemeStore';
 import { FetchLocations } from './FetchLocations';
+import { ErrorBoundary } from 'react-error-boundary';
+import { LocationsLoader } from '../loaders/Loaders';
 
+const loaderStyle: React.CSSProperties = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100dvh'
+};
 
 const mapStyles: Record<'light' | 'dark', string> = {
   light: import.meta.env.VITE_MAPTILER_API_KEY_LIGHT,
@@ -34,11 +43,6 @@ const spbPolygon: GeoJSON.Feature = {
 };
 
 const maxBounds: LngLatBoundsLike = [sw.lng, sw.lat, ne.lng, ne.lat];
-
-export interface PopupData {
-  lat: number;
-  lng: number;
-};
 
 interface MapComponentProps {
   initialCoords: [number, number];
@@ -111,8 +115,17 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
           </Source>)
         } 
         <NavigationControl style={{ display: 'none'}} />
-        { popUpData && <PopUpComponent popUpData={popUpData} onClose={() => setPopupData(null)}/>}
-        <FetchLocations />
+        { popUpData && 
+          <PopUpComponent anchor='bottom' popUpData={popUpData} onClose={() => setPopupData(null)}>
+            <p>Широта: {popUpData.lat}</p>
+            <p>Долгота: {popUpData.lng}</p>
+          </PopUpComponent>
+        }
+        <ErrorBoundary fallback={<div>Упс! Не удалось загрузить персонажей. Попробуйте позже.</div>}>
+          <Suspense fallback={<LocationsLoader styles={loaderStyle}><span>Загрузка локаций ...</span></LocationsLoader>}>
+            <FetchLocations />
+          </Suspense>  
+        </ErrorBoundary>
       </Map>
     </>
   );

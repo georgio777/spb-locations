@@ -1,8 +1,12 @@
-import { useCurrentCharacterStore, type Character, type Time } from '../../store/useCharactersStore';
 import pinSoviet from '../../assets/pin-green-shadowed.svg';
 import pinEmpire from '../../assets/pin-red-shadowed.svg';
 import pinModern from '../../assets/pin-blue-shadowed.svg';
 import './Pin.css';
+import PopUpComponent, { type PopupData } from './PopUpComponent';
+import { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router';
+import type { Character, Time } from '../../types/locations.types';
 
 const getImg = (period: Time) => {
   switch (period) {
@@ -27,25 +31,64 @@ const ImagePicker = ({ period = 'Дореволюционный', className }: {
   )
 };
 
-export const Pin = ({character}: {character: Character}) => {
-  const setCurrentCharacter = useCurrentCharacterStore(state => state.setCurrentCharacter);
+export const Pin = React.memo(({character}: {character: Character}) => {
+  const navigate = useNavigate();
+  const [ popupData, setPopupData ] = useState<PopupData | null>(null);  
+
   const onClick = () => {
-    setCurrentCharacter(character);
+    navigate(`/${character.slug}/${character.id}`);
+  };
+
+  const onHover = () => {
+    setPopupData({lng: character.coords.lng, lat: character.coords.lat});
   };
   return (
-    <button onClick={onClick} className='pin-wrapper' title={character.title} aria-label={character.title}>
-      <ImagePicker className={'pin-img'} period={character.time} />
-    </button>
+    <>
+      <button 
+      onMouseEnter={onHover}
+      onMouseLeave={() => setPopupData(null)}
+      onClick={onClick} 
+      className='pin-wrapper' 
+      // title={character.title} 
+      aria-label={character.title}>
+        <ImagePicker className={'pin-img'} period={character.time} />
+      </button>
+      {popupData && 
+        <PopUpComponent popUpData={popupData} onClose={() => setPopupData(null)}>
+          <p>{character.character}</p>
+          <p>{character.fiction}</p>
+          <p>{character.author}</p>
+          <p>{character.address}</p>
+        </PopUpComponent>
+      }
+    </>
   );
-};
+});
 
-export const ClusterPin = ({count}: {count: number}) => {
+export const ClusterPin = React.memo(({count, chars, coords}: {count: number, chars?: string[], coords: number[]}) => {
+  const [ popupData, setPopupData ] = useState<PopupData | null>(null);  
+  const onHover = () => {
+    setPopupData({lng: coords[0], lat: coords[1]});
+  };
   return (
-    <div className='cluster-wrapper' title='Расширить' aria-label='расширить'>
-      <ImagePicker className={'cluster-img'} />
-      <span className="cluster-count">
-        {count}
-      </span>
-    </div>
+    <>
+      <div 
+      onMouseEnter={onHover}
+      onMouseLeave={() => setPopupData(null)}
+      className='cluster-wrapper' 
+      aria-label='расширить'>
+        <ImagePicker className={'cluster-img'} />
+        <span className="cluster-count">
+          {count}
+        </span>
+      </div>
+      {popupData && 
+        <PopUpComponent popUpData={popupData} onClose={() => setPopupData(null)}>
+          { chars?.map(char =>
+            <p key={char}>{char}</p>
+          )}
+        </PopUpComponent>
+      }
+    </>
   );
-};
+});

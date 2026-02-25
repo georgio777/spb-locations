@@ -1,14 +1,15 @@
 import { create } from "zustand";
 import { THEME_KEY } from "../config/config";
+import { storage } from "../utils/storage";
 
 type Theme = 'light' | 'dark';
 
 // Функция-хелпер для определения начальной темы
 const getInitialTheme = (): Theme => {
-  // 1. Проверяем LS (нужно обернуть в try-catch для безопасности)
+  // 1. Проверяем LS
   try {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved) return JSON.parse(saved) as Theme;
+    const saved = storage.getItem(THEME_KEY);
+    if (saved) return saved as Theme;
   } catch (e) {
     console.error("Error reading theme from LS", e);
   }

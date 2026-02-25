@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import type { Character } from '../../store/useCharactersStore'
 import { Marker, useMap } from 'react-map-gl/maplibre';
 import { ClusterPin, Pin } from './Pin';
 import useSupercluster from 'use-supercluster';
+import type { Character, Characters } from '../../types/locations.types';
 
 interface CharacterProperties {
   cluster: false;
@@ -11,9 +11,8 @@ interface CharacterProperties {
   category: string;
 }
 
-const DataLoaded = ({allCharacters}: {allCharacters: Character[]}) => {
+const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
   const { current: map } = useMap();
-
   // 1. Превращаем данные в формат GeoJSON Feature
   const points = useMemo(() => allCharacters.map(char => ({
     type: 'Feature' as const,
@@ -60,7 +59,6 @@ const DataLoaded = ({allCharacters}: {allCharacters: Character[]}) => {
       {clusters.map(cluster => {
         const [longitude, latitude] = cluster.geometry.coordinates;
         const { cluster: isCluster } = cluster.properties;
-
         // Рендерим КЛАСТЕР
         if (isCluster) {
           const { point_count: pointCount } = cluster.properties;
@@ -86,11 +84,15 @@ const DataLoaded = ({allCharacters}: {allCharacters: Character[]}) => {
               );
             });
           }
+          const leaves = supercluster?.getLeaves(cluster.id as number, Infinity) || [];
+          const clusterChars = leaves.map(char => char.properties.data.title);
           return (
+
             <Marker 
             key={`cluster-${cluster.id}`} 
             longitude={longitude} 
             latitude={latitude}
+            anchor='bottom-right'
             onClick={() => {
               const expansionZoom = Math.min(
                 supercluster?.getClusterExpansionZoom(cluster.id as number) ?? 20,
@@ -99,13 +101,13 @@ const DataLoaded = ({allCharacters}: {allCharacters: Character[]}) => {
               map?.easeTo({ center: [longitude, latitude], zoom: expansionZoom });
             }}
             >
-              <ClusterPin count={pointCount} />
+              <ClusterPin chars={clusterChars} count={pointCount} coords={[longitude, latitude]}/>
             </Marker>
           );
         }
 
         return (
-          <Marker 
+          <Marker
           key={`char-${cluster.properties.characterId}`} 
           longitude={longitude} 
           latitude={latitude}          

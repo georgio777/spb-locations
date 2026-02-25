@@ -1,20 +1,27 @@
+import type { PositionAnchor } from "maplibre-gl";
 import { Popup } from "react-map-gl/maplibre";
-import type { PopupData } from "./MapComponent";
+
+export interface PopupData {
+  lat: number;
+  lng: number;
+};
 
 interface PopUpComponentProps {
   popUpData: PopupData;
   onClose: () => void;
+  anchor?: PositionAnchor;
+  children: React.ReactNode;
 }
 
-const PopUpComponent = ({popUpData, onClose}: PopUpComponentProps) => {
+
+const PopUpComponent = ({popUpData, onClose, anchor = 'bottom-left', children}: PopUpComponentProps) => {
   return (
     <Popup 
     longitude={popUpData.lng} 
     latitude={popUpData.lat}
-    anchor="bottom"
+    anchor={anchor}
     onClose={onClose}>
-      <p>Широта: {popUpData.lat}</p>
-      <p>Долгота: {popUpData.lng}</p>
+      { children }
     </Popup>
   );
 };

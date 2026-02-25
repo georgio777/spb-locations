@@ -1,10 +1,10 @@
 import './Sidebar.css';
 import { useIsMobileStore } from '../../store/useIsMobileStore';
 import { useEffect, useRef, useState } from 'react';
-import { BlurryBackground } from './BlurryBackground';
+import { BlurryBackground } from '../data-containers/BlurryBackground';
 import { motion } from 'framer-motion';
 import { SideBarContent } from './SideBarContent';
-import { useCurrentCharacterStore } from '../../store/useCharactersStore';
+import { useParams } from 'react-router';
 
 const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   const midX = isOpen ? 10 : 1;
@@ -74,15 +74,14 @@ export const Sidebar = () => {
   const isMobile = useIsMobileStore(state => state.isMobile);
   const [ isOpen, setIsOpen ] = useState(false);
   const sideBarRef = useRef<HTMLElement | null>(null);
-  const currentCharacter = useCurrentCharacterStore(state => state.currentCharacter);
-  // Храним ID последнего персонажа, для которого мы "авто-открыли" сайдбар
-  const [lastSelectedId, setLastSelectedId] = useState(currentCharacter?.id);
+  const { id } = useParams<{ id: string | undefined }>();
 
-  // Если ID изменился — значит кликнули на новый маркер
-  if (currentCharacter && currentCharacter.id !== lastSelectedId) {
-    setLastSelectedId(currentCharacter.id);
-    setIsOpen(true);
-  }
+  useEffect(() => {
+    if (id) {
+      // eslint-disable-next-line
+      setIsOpen(true);
+    }
+  }, [id]);
 
   useEffect(() => {
     const node = sideBarRef.current;
@@ -117,9 +116,9 @@ export const Sidebar = () => {
       style={style} 
       role="complementary" aria-label='Меню локаций' 
       className='sidebar textured-bg'>
-        <div className="sidebar-inner">
-          <SideBarContent />
+        <div className="sidebar-border">
         </div>
+        <SideBarContent id={id}/>
       </aside>
       <ToggleButton isMobile={isMobile} isOpen={isOpen}  toggleOpen={toggleOpen}/>
     </>

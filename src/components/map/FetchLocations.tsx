@@ -1,13 +1,7 @@
-import { useEffect } from "react";
-import { useCharactersStore } from "../../store/useCharactersStore";
 import DataLoaded from "./DataLoaded";
+import { useFetchAllCharacters } from "../../hooks/useFetchCharacter";
 
 export const FetchLocations = () => {
-  const fetchAllCharacters = useCharactersStore(state => state.fetchAllCharacters);
-  const allCharacters = useCharactersStore(state => state.allCharacters);
-  
-  useEffect(() => {
-    fetchAllCharacters();
-  }, [fetchAllCharacters]);
-  return allCharacters && <DataLoaded allCharacters={allCharacters} />
+  const { data: characters } = useFetchAllCharacters();
+  return <DataLoaded allCharacters={characters} />
 };

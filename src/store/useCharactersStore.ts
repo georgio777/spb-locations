@@ -1,160 +1,169 @@
-import axios from "axios";
-import { create } from "zustand";
-import { apiUrlAllCharacters, apiUrlCharacterData, apiUrlDescriptions } from "../api/api";
+// import axios from "axios";
+// import { create } from "zustand";
+// import { apiUrlAllCharacters, apiUrlCharacterData, apiUrlDescriptions } from "../api/api";
 
-export interface Coords {
-  lat: number;
-  lng: number;
-}
+// export interface Coords {
+//   lat: number;
+//   lng: number;
+// }
 
-type ImageUrl = string | null;
+// type ImageUrl = string | null;
 
-export type Time = 'Дореволюционный' | 'Советский' | 'Современный';
-
-/**
- * Ответ api с данными о персонаже/локации
- */
-export interface Character {
-  /** Уникальный ID (присваивается сервером) */
-  id: number;
-  /** URL-идентификатор для роутинга */
-  slug: string;
-  /** Имя персонажа/локации */
-  character: string;
-  /** Адрес локации */
-  address: string;
-  /** Автор произведения */
-  author: string;
-  /** Название произведения */
-  fiction: string;
-  /** Географические координаты */
-  coords: Coords;
-  /** URL изображения (может отсутствовать) */
-  image: ImageUrl;
-  /** Временной период создания */
-  time: Time;
-  /** Заголовок локации */
-  title: string;
-}
-
-interface UseCharactersStore {
-  allCharacters: Character[] | null;
-  loading: boolean;
-  error: string | null;
-  fetchAllCharacters: () => void;
-};
+// export type Time = 'Дореволюционный' | 'Советский' | 'Современный';
 
 
-export const useCharactersStore = create<UseCharactersStore>((set) => ({
-  allCharacters: null,
-  loading: false,
-  error: null,
-  fetchAllCharacters: async () => {
-    set({ loading: true, error: null });
+// export interface Character {
+//   /** Уникальный ID (присваивается сервером) */
+//   id: number;
+//   /** URL-идентификатор для роутинга */
+//   slug: string;
+//   /** Имя персонажа/локации */
+//   character: string;
+//   /** Адрес локации */
+//   address: string;
+//   /** Автор произведения */
+//   author: string;
+//   /** Название произведения */
+//   fiction: string;
+//   /** Географические координаты */
+//   coords: Coords;
+//   /** URL изображения (может отсутствовать) */
+//   image: ImageUrl;
+//   /** Временной период создания */
+//   time: Time;
+//   /** Заголовок локации */
+//   title: string;
+// }
 
-    try {
-      const response = await axios.get(apiUrlAllCharacters);
-      set({ allCharacters: response.data });
+// /**
+//  * Ответ api с данными о персонаже/локации
+//  */
+// export type Characters = Character[];
 
-    } catch (err) {
-      let errorMessage = 'Неизвестная ошибка';
-
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (axios.isAxiosError(err)) {
-        errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
-      }
-
-      set({ error: errorMessage });
-
-    } finally {
-      set({ loading: false });
-    }
-  }
-}));
+// interface UseCharactersStore {
+//   allCharacters: Characters | null;
+//   loading: boolean;
+//   error: string | null;
+//   fetchAllCharacters: () => void;
+// };
 
 
-/**
- * Подробные данные о персонаже/локации
- */
-export interface CharacterDescription {
-  /** заголовок */
-  heading: string;
-  id: string;
-  /** развернутое описание относящееся к загловку */
-  info: string;
-}
+// export const useCharactersStore = create<UseCharactersStore>((set) => ({
+//   allCharacters: null,
+//   loading: false,
+//   error: null,
+//   fetchAllCharacters: async () => {
+//     set({ loading: true, error: null });
 
-interface CurrentCharacter extends Character {
-  descriptions?: CharacterDescription[];
-}
+//     try {
+//       const response = await axios.get(apiUrlAllCharacters);
+//       set({ allCharacters: response.data });
 
-interface UseCurrentCharacterStore {
-  /** уже имеющаяся информация + ответ api с подробными описаниями */
-  currentCharacter: CurrentCharacter | null;
-  loading: boolean;
-  error: string | null;
-  /**
-   * устанавливает интересуемую в данный момент локацию принимая сокращенный объект локации
-   * @param character объект локации
-   */
-  setCurrentCharacter: (character: Character) => void;
-  /**
-   * получает и записывает всю информацию по локации по id
-   * @param id id локации
-   */
-  fetchCompleteLocation: (id: number) => void;
-}
+//     } catch (err) {
+//       let errorMessage = 'Неизвестная ошибка';
 
-export const useCurrentCharacterStore = create<UseCurrentCharacterStore>((set) => ({
-  currentCharacter: null,
-  loading: false,
-  error: null,
+//       if (err instanceof Error) {
+//         errorMessage = err.message;
+//       } else if (axios.isAxiosError(err)) {
+//         errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
+//       }
 
-  setCurrentCharacter: async (character: Character) => {
-    set({ loading: true, error: null });
+//       set({ error: errorMessage });
 
-    // запрашиваем подробные данные у сервера
-    try {
-      const response = await axios.get(`${apiUrlDescriptions}${character.id}`);
-      set({ currentCharacter: {...character, ...response.data} });
-    } catch (err) {
-      let errorMessage = 'Неизвестная ошибка';
+//     } finally {
+//       set({ loading: false });
+//     }
+//   }
+// }));
 
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (axios.isAxiosError(err)) {
-        errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
-      }
 
-      set({ error: errorMessage });
-      // в случае неудачного запроса заполняем той информацией что уже имеется
-      set({ currentCharacter: character })
+// /**
+//  * Подробные данные о персонаже/локации
+//  */
+// export interface CharacterDescription {
+//   /** заголовок */
+//   heading: string;
+//   id: string;
+//   /** развернутое описание относящееся к загловку */
+//   info: string;
+// }
 
-    } finally {
-      set({ loading: false });
-    }
+// export type CharacterDescriptions = CharacterDescription[];
 
-  },
-  fetchCompleteLocation: async (id: number) => {
-    set({ loading: true, error: null });
+// interface UseCurrentCharacterStore {
+//   /** уже имеющаяся информация + ответ api с подробными описаниями */
+//   currentCharacter: Character | null;
+//   characterDetails: CharacterDescriptions | null;
+//   loading: boolean;
+//   error: string | null;
+//   /**
+//    * устанавливает интересуемую в данный момент локацию принимая сокращенный объект локации
+//    * @param character объект локации
+//    */
+//   setCurrentCharacter: (character: Character) => void;
+//   /**
+//    * получает и записывает описание локации по id
+//    * @param id id локации
+//    */
+//   fetchCurrentCharacterDetails: (id: number) => void;
+//   /**
+//    * получает и записывает описание локации и основную информацию по id
+//    * @param id id локации
+//    */
+//   fetchCompleteLocation: (id: number) => void;
+// }
 
-    // запрашиваем подробные данные у сервера
-    try {
-      const response = await axios.get(`${apiUrlCharacterData}${id}`);
-      set({ currentCharacter: response.data });
-    } catch (err) {
-      let errorMessage = 'Неизвестная ошибка';
+// export const useCurrentCharacterStore = create<UseCurrentCharacterStore>((set) => ({
+//   currentCharacter: null,
+//   characterDetails: null,
+//   loading: false,
+//   error: null,
 
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (axios.isAxiosError(err)) {
-        errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
-      }
+//   setCurrentCharacter: (character: Character) => set({ currentCharacter: character}),
 
-      set({ error: errorMessage });
-    } finally {
-      set({ loading: false });
-    }
-  }
-}));
+//   fetchCurrentCharacterDetails: async (id: number) => {
+//     set({ loading: true, error: null });
+
+//     // запрашиваем подробные данные у сервера
+//     try {
+//       const response = await axios.get(`${apiUrlDescriptions}${id}`);
+//       set({ characterDetails: response.data });
+//     } catch (err) {
+//       let errorMessage = 'Неизвестная ошибка';
+
+//       if (err instanceof Error) {
+//         errorMessage = err.message;
+//       } else if (axios.isAxiosError(err)) {
+//         errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
+//       }
+
+//       set({ error: errorMessage });
+
+//     } finally {
+//       set({ loading: false });
+//     }
+
+//   },
+
+//   fetchCompleteLocation: async (id: number) => {
+//     set({ loading: true, error: null });
+
+//     // запрашиваем подробные данные у сервера
+//     try {
+//       const response = await axios.get(`${apiUrlCharacterData}${id}`);
+//       set({ currentCharacter: response.data });
+//     } catch (err) {
+//       let errorMessage = 'Неизвестная ошибка';
+
+//       if (err instanceof Error) {
+//         errorMessage = err.message;
+//       } else if (axios.isAxiosError(err)) {
+//         errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
+//       }
+
+//       set({ error: errorMessage });
+//     } finally {
+//       set({ loading: false });
+//     }
+//   }
+// }));

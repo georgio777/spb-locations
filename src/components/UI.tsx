@@ -1,4 +1,4 @@
-import { Sidebar } from "./data-containers/Sidebar";
+import { Sidebar } from "./sidebar/Sidebar";
 import { ToolBar } from "./Tools/ToolBar";
 import './UI.css';
 
