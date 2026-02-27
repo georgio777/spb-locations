@@ -1,5 +1,7 @@
 import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import type { Character } from '../../types/locations.types';
+import { ControlBar } from './ControlBar';
+import { HeaderLeft } from './HeaderLeft';
 import './SideBarHeader.css';
 import { useParams } from 'react-router';
 
@@ -13,20 +15,29 @@ export const SideBarHeader = () => {
   
   return (
     <header className='sidebar-header'>
-      <div className="header-img-container"></div>
-      <div className="sidebar-header__info">
-        { !currentCharacter
-          ? <h1 className='sidebar-header__heading'>Литературные локации</h1>
-          : (
-          <>
-            <h1 className='sidebar-header__heading'>{ currentCharacter.title }</h1>
-            {showName && <p>{currentCharacter.character}</p>}
-            <p className="sidebar-header__author">Автор: {currentCharacter.author}</p>
-            <p className="sidebar-header__fiction">Произведение: {currentCharacter.fiction}</p>
-            <p className="sidebar-header__adress">Адрес: {currentCharacter.address}</p>
-          </>
-        )}
+      <div className="sidebar-header__top">
+        <HeaderLeft />
+        <div className="sidebar-header__info">
+          { !currentCharacter
+            ? <h1 className='sidebar-header__heading'>Литературные локации</h1>
+            : (
+            <>
+              <h1 className='sidebar-header__heading'>{ currentCharacter.title }</h1>
+              {showName && <p>{currentCharacter.character}</p>}
+              <p className="sidebar-header__item">
+                <span className='sidebar-header__item-colored'>Автор:</span> {currentCharacter.author}
+              </p>
+              <p className="sidebar-header__item">
+                <span className='sidebar-header__item-colored'>Произведение:</span> {currentCharacter.fiction}
+              </p>
+              <p className="sidebar-header__item">
+                <span className='sidebar-header__item-colored'>Адрес:</span> {currentCharacter.address}
+              </p>
+            </>
+          )}
+        </div>
       </div>
+      { currentCharacter && <ControlBar /> }
     </header>
   );
 };

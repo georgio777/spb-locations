@@ -1,5 +1,6 @@
 .sidebar-content__wrapper {
-  margin: 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
   margin-bottom: 2rem;
   display: flex;
   width: auto;
@@ -10,5 +11,7 @@
 @media (max-width: 1023px) {
   .sidebar-content__wrapper {
     overflow-y: auto;
+    overflow-x: visible;
+    scrollbar-color: #888 var(--textured-bg-color); 
   }
 }

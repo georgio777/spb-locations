@@ -1,9 +1,12 @@
-import './MainLoader.css'
+import './MainLoader.css';
+import loaderSvg from '../../assets/MainLoader.svg';
 
 const MainLoader = () => {
   return (
     <div className='loader-wrapper'>
-      <span className="loader"></span>
+      <div className="loader">
+        <img className='loader__img' src={loaderSvg} alt="" />
+      </div>
     </div>
   );
 };

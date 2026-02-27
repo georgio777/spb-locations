@@ -10,7 +10,9 @@ export const MainPage = () => {
   return (
     <>
       <AppContent/>
-      { !isMapReady && <MainLoader /> }
+      { !isMapReady && 
+      <MainLoader /> 
+      }
     </>
   );
 };

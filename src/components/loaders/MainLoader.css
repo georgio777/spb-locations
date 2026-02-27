@@ -4,14 +4,17 @@
   left: 0;
   width: 100vw;
   height: 100dvh;
-  background-color: rgb(143, 143, 143);
+  background-color: rgb(26, 25, 25);
+  background-image: url('../../assets/bcg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.loader {
+/* .loader {
   width: 48px;
   height: 48px;
   display: block;
@@ -64,5 +67,53 @@
   100% {
     transform: scale(1);
   }
-}
+} */
     
+.loader {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.loader__img {
+  height: 30vh;
+  z-index: 2;
+  position: relative;
+  animation: animPin 1s ease-in-out alternate infinite;
+  will-change: transform;
+}
+
+.loader::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 60%;
+  height: 6vh;
+  border-radius: 100%;
+  background: linear-gradient(90deg,rgba(0, 0, 0, 0.11) 0%, rgba(0, 0, 0, 1) 100%);;
+  z-index: 1;
+  transform: translateY(-50%);
+  animation: animShadow 1s ease-in-out alternate infinite;
+  transform-origin: right bottom;
+  will-change: transform;
+}
+
+@keyframes animPin {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes animShadow {
+  from {
+    transform: translateY(-50%) scale(1);
+  }
+  to {
+    transform: translateY(-50%) scale(0.7);
+  }
+}
