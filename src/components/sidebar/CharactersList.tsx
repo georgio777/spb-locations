@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
-import { useFetchAllCharacters } from '../hooks/useFetchCharacter';
-import { BlurryBackground } from './data-containers/BlurryBackground';
+import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
+import { BlurryBackground } from '../data-containers/BlurryBackground';
 import './CharactersList.css';
 
 export const CharactersList = () => {
@@ -17,7 +17,7 @@ export const CharactersList = () => {
             className="characters-list__link"
           >
             <BlurryBackground className='characters-list__bg'>
-              {character.title}
+              {character.title}, {character.address}
             </BlurryBackground>
           </Link>
         </li>

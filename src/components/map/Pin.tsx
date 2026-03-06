@@ -3,11 +3,12 @@ import pinEmpire from '../../assets/pin-red-shadowed.svg';
 import pinModern from '../../assets/pin-blue-shadowed.svg';
 import './Pin.css';
 import PopUpComponent, { type PopupData } from './PopUpComponent';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import type { Character, Time } from '../../types/locations.types';
 import { useCurrentCharacterStore } from '../../store/useCharactersStore';
+import { motion } from 'framer-motion';
 
 const getImg = (period: Time) => {
   switch (period) {
@@ -32,10 +33,26 @@ const ImagePicker = ({ period = 'Дореволюционный', className }: {
   )
 };
 
-export const Pin = React.memo(({character}: {character: Character}) => {
+interface PinProps {
+  character: Character;
+  leafCoords?: [number, number];
+  selected?: boolean;
+}
+
+export const Pin = React.memo(({character, leafCoords, selected = false}: PinProps) => {
   const navigate = useNavigate();
   const [ popupData, setPopupData ] = useState<PopupData | null>(null);  
   const setID = useCurrentCharacterStore(state => state.setCharacterID);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const coords = leafCoords ? leafCoords : [character.coords.lng, character.coords.lat];
+
+  // 2. Следим за изменением selected
+  useEffect(() => {
+    if (selected && buttonRef.current) {
+      buttonRef.current.focus();
+    }
+  }, [selected]);
 
   const onClick = () => {
     navigate(`/${character.slug}/${character.id}`);
@@ -43,19 +60,28 @@ export const Pin = React.memo(({character}: {character: Character}) => {
   };
 
   const onHover = () => {
-    setPopupData({lng: character.coords.lng, lat: character.coords.lat});
+    setPopupData({lng: coords[0], lat: coords[1]});
   };
   return (
     <>
-      <button 
+      <motion.button 
+      animate={{ 
+        scale: selected ? 1.3 : 1 
+      }}
+      transition={{ 
+        type: "spring", 
+        stiffness: 700, 
+        damping: 14 
+      }}
+      ref={buttonRef}
       onMouseEnter={onHover}
       onMouseLeave={() => setPopupData(null)}
       onClick={onClick} 
-      className='pin-wrapper' 
+      className='pin-button'
       // title={character.title} 
       aria-label={character.title}>
         <ImagePicker className={'pin-img'} period={character.time} />
-      </button>
+      </motion.button>
       {popupData && 
         <PopUpComponent popUpData={popupData} onClose={() => setPopupData(null)}>
           <p>{character.character}</p>

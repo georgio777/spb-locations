@@ -17,6 +17,7 @@ interface PopUpComponentProps {
 const PopUpComponent = ({popUpData, onClose, anchor = 'bottom-left', children}: PopUpComponentProps) => {
   return (
     <Popup 
+    style={{marginLeft: '1rem'}}
     longitude={popUpData.lng} 
     latitude={popUpData.lat}
     anchor={anchor}

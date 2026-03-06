@@ -15,7 +15,7 @@
   line-height: 1.8rem;
   margin-bottom: 0.4rem;
   overflow-wrap: break-word; 
-  hyphens: auto; 
+  /* hyphens: auto;  */
 }
 
 .sidebar-header__item-colored {

@@ -30,6 +30,11 @@
   hyphens: auto; 
 }
 
+.sidebar-details__poetry {
+  line-height: 1.6rem;
+  margin-left: 1rem;
+}
+
 @media (max-width: 1023px) {
   .sidebar-details-container {
     padding-right: 10px;

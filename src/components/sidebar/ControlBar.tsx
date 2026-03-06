@@ -17,8 +17,8 @@ const style = {
   marginLeft: 'auto',
   marginRight: '1rem',
   backgroundColor: 'rgba(124, 72, 1, 0.2)',
-  borderColor: 'rgba(135, 137, 13, 1)',
-  boxShadow: '0px 0px 2px 1px inset rgba(135, 137, 13, 0.61)'
+  borderColor: 'var(--border-color-lighten)',
+  boxShadow: '0px 0px 2px 1px inset rgba(137, 112, 13, 0.61)'
 };
 
 export const ControlBar = () => {

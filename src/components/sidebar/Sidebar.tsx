@@ -114,7 +114,10 @@ export const Sidebar = () => {
       ref={sideBarRef}
       id='main-sidebar'
       style={style} 
-      role="complementary" aria-label='Меню локаций' 
+      role="complementary" 
+      aria-label='Меню локаций' 
+      aria-hidden={!isOpen}
+      inert={!isOpen ? true : undefined}
       className='sidebar textured-bg'>
         <div className="sidebar-border">
         </div>

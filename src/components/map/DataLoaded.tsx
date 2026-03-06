@@ -3,6 +3,7 @@ import { Marker, useMap } from 'react-map-gl/maplibre';
 import { ClusterPin, Pin } from './Pin';
 import useSupercluster from 'use-supercluster';
 import type { Character, Characters } from '../../types/locations.types';
+import { useParams } from 'react-router';
 
 interface CharacterProperties {
   cluster: false;
@@ -11,7 +12,18 @@ interface CharacterProperties {
   category: string;
 }
 
+const pointStyle = {
+  width: '10px',
+  height: '10px',
+  borderRadius: '10px',
+  backgroundColor: 'white',
+  border: '2px solid red'
+};
+
+const anchor = 'bottom-right';
+
 const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
+  const { id } = useParams();
   const { current: map } = useMap();
   // 1. Превращаем данные в формат GeoJSON Feature
   const points = useMemo(() => allCharacters.map(char => ({
@@ -63,27 +75,37 @@ const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
         if (isCluster) {
           const { point_count: pointCount } = cluster.properties;
 
-          // Если достигнут максимальный зум, а точки всё еще в кластере
+          // Если достигнут максимальный зум, а точки всё еще в кластере делаем спайдерфикацию
           if (zoom >= 17) {
+            
             const leaves = supercluster?.getLeaves(cluster.id as number, Infinity) || [];
+            return (
+              <React.Fragment key={`marker-${cluster.id}`}>
+                {/* между спайдерфицированными локациями добавляем точку */}
+                <Marker anchor='center' longitude={longitude} latitude={latitude}><div style={pointStyle}></div></Marker>
+                {/* непосредственно развернутые вокруг точки локации */}
+                {leaves.map((leaf, index) => {
+                  const angle = (index / leaves.length) * 2 * Math.PI;
+                  const radius = 0.0001; // Небольшое смещение координат
+                  const spiderLng = longitude + Math.cos(angle) * radius;
+                  const spiderLat = latitude + Math.sin(angle) * radius;
 
-            return leaves.map((leaf, index) => {
-              const angle = (index / leaves.length) * 2 * Math.PI;
-              const radius = 0.0001; // Небольшое смещение координат
-              const spiderLng = longitude + Math.cos(angle) * radius;
-              const spiderLat = latitude + Math.sin(angle) * radius;
-
-              return (
-                <Marker 
-                  key={`spider-${leaf.properties.characterId}`} 
-                  longitude={spiderLng} 
-                  latitude={spiderLat}
-                >
-                  <Pin character={leaf.properties.data} />
-                </Marker>
-              );
-            });
+                  return (
+                    <Marker 
+                      key={`spider-${leaf.properties.characterId}`} 
+                      longitude={spiderLng} 
+                      latitude={spiderLat}
+                      anchor={anchor}
+                    >
+                      <Pin selected={Number(id) === leaf.properties.data.id} character={leaf.properties.data} leafCoords={[spiderLng, spiderLat]} />
+                    </Marker>
+                  );
+                })}
+              </React.Fragment>
+            )
           }
+
+          // собираем данные из кластера для отрисовки данных в попапе
           const leaves = supercluster?.getLeaves(cluster.id as number, Infinity) || [];
           const clusterChars = leaves.map(char => char.properties.data.title);
           return (
@@ -92,7 +114,7 @@ const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
             key={`cluster-${cluster.id}`} 
             longitude={longitude} 
             latitude={latitude}
-            anchor='bottom-right'
+            anchor={anchor}
             onClick={() => {
               const expansionZoom = Math.min(
                 supercluster?.getClusterExpansionZoom(cluster.id as number) ?? 20,
@@ -106,13 +128,14 @@ const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
           );
         }
 
+        // рендеринг одиночного маркера
         return (
           <Marker
           key={`char-${cluster.properties.characterId}`} 
           longitude={longitude} 
           latitude={latitude}          
-          anchor="bottom-right">
-            <Pin character={cluster.properties.data} />
+          anchor={anchor}>
+            <Pin selected={Number(id) === cluster.properties.data.id} character={cluster.properties.data} />
           </Marker>
         );
       })}

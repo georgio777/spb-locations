@@ -90,6 +90,7 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
     <>
       <Map
         id="myMap"
+        maxZoom={20}
         initialViewState={{
           longitude: initialCoords[0],
           latitude: initialCoords[1],

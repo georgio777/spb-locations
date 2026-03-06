@@ -6,7 +6,7 @@ import { LocationsLoader } from "../loaders/Loaders";
 import './SideBarContent.css';
 import { SideBarHeader } from "./SideBarHeader";
 import { Divider } from "./Divider";
-import { CharactersList } from "../CharactersList";
+import { CharactersList } from "./CharactersList";
 
 export const SideBarContent = React.memo(({id}: {id: string | undefined}) => {
   return (

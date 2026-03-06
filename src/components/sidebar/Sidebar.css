@@ -20,13 +20,19 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  border: 100px solid transparent; 
-  border-image-source: url('../../assets/allframe.png');
-  border-image-slice: 300 300;
+  right: 0; /* используем координаты вместо 100%, так надежнее для absolute */
+  bottom: 0;
+  
+  border-style: solid;
+  border-width: 150px;
+  
+  /* Сначала префиксы, потом оригинал */
+  -webkit-border-image: url('/allframe.png') 300 300 repeat;
+  border-image: url('/allframe.png') 300 300 repeat;
+  
+  /* Явно задаем ширину изображения рамки */
   border-image-width: 150px;
-  border-image-repeat: repeat;
+  
   z-index: 2;
   pointer-events: none;
 }

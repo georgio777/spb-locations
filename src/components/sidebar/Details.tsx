@@ -1,22 +1,46 @@
-import { Fragment } from 'react/jsx-runtime';
+import { Fragment } from 'react'; // Используем стандартный React Fragment
 import type { CharacterDescriptions } from '../../types/locations.types';
 import './Details.css';
 import { Divider } from './Divider';
 
-export const Details = ({ details }: { details: CharacterDescriptions}) => {
-  
+export const Details = ({ details }: { details: CharacterDescriptions }) => {
   return (
     <main className="sidebar-details-container">
-      { details.map((description, index) => (
-        <Fragment key={description.id}> 
+      {details.map((description, index) => (
+        <Fragment key={description.id}>
           <div className="sidebar-details">
             <h2 className="sidebar-details__heading">{description.heading}</h2>
-            { description.info.split('\r\n').map((p, index) => (
-              <p key={`paragraph-${index}`} className="sidebar-details__paragraph">{p}</p>
-            ))}
             
+            {/* 1. Сначала делим весь текст на части по разделителю ``` */}
+            {description.info.split(/```/g).map((part, partIndex) => {
+              // Каждая нечетная часть (1, 3, 5...) — это стихи
+              const isPoetry = partIndex % 2 === 1;
+
+              if (isPoetry) {
+                return (
+                  <p key={`poetry-${partIndex}`} className="sidebar-details__poetry">
+                    {part.trim().split('\r\n').map((line, lineIndex, array) => (
+                      <Fragment key={lineIndex}>
+                        {line}
+                        {lineIndex < array.length - 1 && <br />}
+                      </Fragment>
+                    ))}
+                  </p>
+                );
+              }
+
+              // 2. Обычный текст: делим по \r\n и создаем стандартные параграфы
+              return part
+                .split('\r\n')
+                .filter((p) => p.trim() !== '') // Игнорируем пустые строки
+                .map((p, pIndex) => (
+                  <p key={`paragraph-${partIndex}-${pIndex}`} className="sidebar-details__paragraph">
+                    {p}
+                  </p>
+                ));
+            })}
           </div>
-          { index < details.length -1 && <Divider />}
+          {index < details.length - 1 && <Divider />}
         </Fragment>
       ))}
     </main>
