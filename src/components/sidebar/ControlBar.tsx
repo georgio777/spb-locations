@@ -5,6 +5,8 @@ import { useFetchAllCharacters } from "../../hooks/useFetchCharacter";
 import locate from '../../assets/locate.png';
 import { useMap } from "react-map-gl/maplibre";
 import { homeIcon, shareIcon } from "../../svgIcons";
+import { useSideBarStore } from "../../store/useSideBarStore";
+import { useIsMobileStore } from "../../store/useIsMobileStore";
 
 
 const style = {
@@ -14,8 +16,6 @@ const style = {
   width: 'fit-content',
   height: 'fit-content',
   gap: '0.2rem',
-  marginLeft: 'auto',
-  marginRight: '1rem',
   backgroundColor: 'rgba(124, 72, 1, 0.2)',
   borderColor: 'var(--border-color-lighten)',
   boxShadow: '0px 0px 2px 1px inset rgba(137, 112, 13, 0.61)'
@@ -27,13 +27,21 @@ export const ControlBar = () => {
   const { myMap } = useMap();
   const navigate = useNavigate();
   
+  const isOpen = useSideBarStore(state => state.isOpen);
+  const setIsOpen = useSideBarStore(state => state.setIsOpen);
+  const isMobile = useIsMobileStore(state => state.isMobile);
+  
+  
   const onStartPage = () => {
     navigate('/')
   };
 
   const onLocate = () => {
+    if (isMobile && isOpen) {
+      setIsOpen(false);
+    }
     const coords = characters.find(char => char.id === Number(characterID))?.coords;
-    myMap?.flyTo({center: [coords?.lng as number, coords?.lat as number], zoom: 18})
+    myMap?.flyTo({center: [coords?.lng as number, coords?.lat as number], zoom: 18});
   };
 
   const onCopyHref = () => {

@@ -1,17 +1,8 @@
 .sidebar-content__wrapper {
   margin: 0.5rem;
   padding: 0.5rem;
-  margin-bottom: 2rem;
   display: flex;
   width: auto;
   flex-direction: column;
-  height: calc(100% - 3rem);
-}
-
-@media (max-width: 1023px) {
-  .sidebar-content__wrapper {
-    overflow-y: auto;
-    overflow-x: visible;
-    scrollbar-color: #888 var(--textured-bg-color); 
-  }
+  height: calc(100% - 1rem);
 }

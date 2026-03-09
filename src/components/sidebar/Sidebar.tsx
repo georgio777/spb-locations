@@ -1,10 +1,11 @@
 import './Sidebar.css';
 import { useIsMobileStore } from '../../store/useIsMobileStore';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
 import { motion } from 'framer-motion';
 import { SideBarContent } from './SideBarContent';
 import { useParams } from 'react-router';
+import { useSideBarStore } from '../../store/useSideBarStore';
 
 const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   const midX = isOpen ? 10 : 1;
@@ -38,7 +39,18 @@ const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   );
 };
 
-const ToggleButton = ({isMobile, isOpen, toggleOpen} : {isMobile: boolean, isOpen: boolean, toggleOpen: () => void}) => {
+const ToggleButton = ({isMobile} : {isMobile: boolean}) => {
+  const isOpen = useSideBarStore(state => state.isOpen);
+  const setIsOpen = useSideBarStore(state => state.setIsOpen);
+
+  const toggleOpen = () => {
+    if (isOpen) {
+      setIsOpen(false)
+    } else {
+      setIsOpen(true)
+    }
+  }
+
   return (
     <button 
       className='sidebar-toggle-button'
@@ -72,16 +84,17 @@ const getStyle = (isMobile: boolean, isOpen: boolean) => {
 
 export const Sidebar = () => {
   const isMobile = useIsMobileStore(state => state.isMobile);
-  const [ isOpen, setIsOpen ] = useState(false);
+  // const [ isOpen, setIsOpen ] = useState(false);
+  const isOpen = useSideBarStore(state => state.isOpen);
+  const setIsOpen = useSideBarStore(state => state.setIsOpen);
   const sideBarRef = useRef<HTMLElement | null>(null);
   const { id } = useParams<{ id: string | undefined }>();
 
   useEffect(() => {
     if (id) {
-      // eslint-disable-next-line
       setIsOpen(true);
     }
-  }, [id]);
+  }, [id, setIsOpen]);
 
   useEffect(() => {
     const node = sideBarRef.current;
@@ -102,10 +115,6 @@ export const Sidebar = () => {
     };
   }, [isMobile]);
 
-  const toggleOpen = () => {
-    setIsOpen(prev => !prev)
-  }
-
   const style = getStyle(isMobile, isOpen);
 
   return (
@@ -123,7 +132,7 @@ export const Sidebar = () => {
         </div>
         <SideBarContent id={id}/>
       </aside>
-      <ToggleButton isMobile={isMobile} isOpen={isOpen}  toggleOpen={toggleOpen}/>
+      <ToggleButton isMobile={isMobile}/>
     </>
   );
 };

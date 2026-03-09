@@ -1,7 +1,7 @@
 import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import type { Character } from '../../types/locations.types';
 import { ControlBar } from './ControlBar';
-import { HeaderLeft } from './HeaderLeft';
+import { HeaderImg } from './HeaderImg';
 import './SideBarHeader.css';
 import { useParams } from 'react-router';
 
@@ -15,8 +15,10 @@ export const SideBarHeader = () => {
   
   return (
     <header className='sidebar-header'>
-      <div className="sidebar-header__top">
-        <HeaderLeft />
+      <div className='sidebar-header__left'>
+        <HeaderImg />
+        { currentCharacter && <ControlBar /> }
+      </div>
         <div className="sidebar-header__info">
           { !currentCharacter
             ? <h1 className='sidebar-header__heading'>Литературные локации</h1>
@@ -36,8 +38,6 @@ export const SideBarHeader = () => {
             </>
           )}
         </div>
-      </div>
-      { currentCharacter && <ControlBar /> }
     </header>
   );
 };

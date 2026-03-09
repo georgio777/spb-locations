@@ -3,7 +3,7 @@ import pinEmpire from '../../assets/pin-red-shadowed.svg';
 import pinModern from '../../assets/pin-blue-shadowed.svg';
 import './Pin.css';
 import PopUpComponent, { type PopupData } from './PopUpComponent';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import type { Character, Time } from '../../types/locations.types';
@@ -43,16 +43,8 @@ export const Pin = React.memo(({character, leafCoords, selected = false}: PinPro
   const navigate = useNavigate();
   const [ popupData, setPopupData ] = useState<PopupData | null>(null);  
   const setID = useCurrentCharacterStore(state => state.setCharacterID);
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const coords = leafCoords ? leafCoords : [character.coords.lng, character.coords.lat];
-
-  // 2. Следим за изменением selected
-  useEffect(() => {
-    if (selected && buttonRef.current) {
-      buttonRef.current.focus();
-    }
-  }, [selected]);
 
   const onClick = () => {
     navigate(`/${character.slug}/${character.id}`);
@@ -73,7 +65,6 @@ export const Pin = React.memo(({character, leafCoords, selected = false}: PinPro
         stiffness: 700, 
         damping: 14 
       }}
-      ref={buttonRef}
       onMouseEnter={onHover}
       onMouseLeave={() => setPopupData(null)}
       onClick={onClick} 

@@ -6,11 +6,8 @@
   scrollbar-color: #888 var(--textured-bg-color); 
   /* толщина: auto, thin или none */
   scrollbar-width: thin; 
-  padding-right: 20px;
-}
-
-.sidebar-details:last-of-type {
-  padding-bottom: 1rem ;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
 }
 
 .sidebar-details {
@@ -38,6 +35,5 @@
 @media (max-width: 1023px) {
   .sidebar-details-container {
     padding-right: 10px;
-    overflow-y: visible;
   }
 }

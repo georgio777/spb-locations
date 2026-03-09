@@ -3,10 +3,10 @@
   gap: 1rem;
 }
 
-.sidebar-header__top {
+.sidebar-header__left {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
-  flex-shrink: 1;
 }
 
 .sidebar-header__heading {
@@ -24,14 +24,8 @@
 }
 
 @media (max-width: 1023px) {
-  .sidebar-header{
-    flex-wrap: wrap;
-  }
   .sidebar-header__heading {
     font-size: 1.4rem;
     line-height: 1.4rem;
-  }
-  .sidebar-header__info {
-    flex-shrink: 1;
   }
 }
