@@ -1,18 +1,29 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { FetchDetails } from "./FetchDetails";
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import React from "react";
 import { LocationsLoader } from "../loaders/Loaders";
 import './SideBarContent.css';
 import { SideBarHeader } from "./SideBarHeader";
 import { Divider } from "./Divider";
-import { CharactersList } from "./CharactersList";
+import { NoCharacterSelected } from "./NoCharacterSelected";
+import { ControlBar } from "./ControlBar";
 
 export const SideBarContent = React.memo(({id}: {id: string | undefined}) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Сбрасываем скролл контейнера при изменении id
+    if (wrapperRef.current) {
+      wrapperRef.current.scrollTo(0, 0);
+    }
+  }, [id]);
   return (
-    <div className="sidebar-content__wrapper">
+    <div ref={wrapperRef} className="sidebar-content__wrapper">
       <SideBarHeader />
-      <Divider />
+      <ControlBar wrapperRef={wrapperRef} targetRef={targetRef}/>
+      <Divider ref={targetRef}/>
       { id ? (
         <ErrorBoundary fallback={<div>Упс! Не удалось загрузить детали. Попробуйте позже.</div>}>
           <Suspense fallback={<LocationsLoader >Загрузка описаний ...</LocationsLoader>}>
@@ -20,7 +31,7 @@ export const SideBarContent = React.memo(({id}: {id: string | undefined}) => {
           </Suspense>
         </ErrorBoundary>
         ) : (
-          <CharactersList />
+          <NoCharacterSelected />
         )
       }
     </div>

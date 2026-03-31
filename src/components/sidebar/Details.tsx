@@ -1,21 +1,12 @@
-import { Fragment, useEffect, useRef } from 'react'; // Используем стандартный React Fragment
+import { Fragment } from 'react';
 import type { CharacterDescriptions } from '../../types/locations.types';
 import './Details.css';
 import { Divider } from './Divider';
-import { useParams } from 'react-router';
 
 export const Details = ({ details }: { details: CharacterDescriptions }) => {
-  const { id } = useParams();
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Сбрасываем скролл контейнера при изменении id
-    if (wrapperRef.current) {
-      wrapperRef.current.scrollTo(0, 0);
-    }
-  }, [id]);
   return (
-    <main ref={wrapperRef} className="sidebar-details-container">
+    <main  className="sidebar-details-container">
       {details.map((description, index) => (
         <Fragment key={description.id}>
           <div className="sidebar-details">

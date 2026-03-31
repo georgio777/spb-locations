@@ -1,0 +1,6 @@
+.sidebar-content__no-character {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: .2rem;
+}

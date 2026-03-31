@@ -57,13 +57,18 @@ export const Pin = React.memo(({character, leafCoords, selected = false}: PinPro
   return (
     <>
       <motion.button 
+      initial={{ skewX: 0, scale: 1 }}
       animate={{ 
-        scale: selected ? 1.3 : 1 
+        scale: selected ? 1.3 : 1,
+      }}
+      whileHover={{
+        skewX: [0, -5, 5, -3, 3, 0], // Чуть больше шагов для "пружинистости"
       }}
       transition={{ 
         type: "spring", 
         stiffness: 700, 
-        damping: 14 
+        damping: 14,
+        skewX: { duration: 0.4, ease: "easeInOut",}
       }}
       onMouseEnter={onHover}
       onMouseLeave={() => setPopupData(null)}
@@ -74,7 +79,7 @@ export const Pin = React.memo(({character, leafCoords, selected = false}: PinPro
         <ImagePicker className={'pin-img'} period={character.time} />
       </motion.button>
       {popupData && 
-        <PopUpComponent popUpData={popupData} onClose={() => setPopupData(null)}>
+        <PopUpComponent style={{marginLeft: '1rem'}} popUpData={popupData} onClose={() => setPopupData(null)}>
           <p>{character.character}</p>
           <p>{character.fiction}</p>
           <p>{character.author}</p>
@@ -103,7 +108,7 @@ export const ClusterPin = React.memo(({count, chars, coords}: {count: number, ch
         </span>
       </div>
       {popupData && 
-        <PopUpComponent popUpData={popupData} onClose={() => setPopupData(null)}>
+        <PopUpComponent style={{marginLeft: '1rem'}} popUpData={popupData} onClose={() => setPopupData(null)}>
           { chars?.map(char =>
             <p key={char}>{char}</p>
           )}

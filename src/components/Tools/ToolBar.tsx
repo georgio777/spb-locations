@@ -17,10 +17,10 @@ export const ToolBar = () => {
   return (
     <menu type="toolbar" className='tool-bar'>
       <BlurryBackground style={toolbarCss}>
-        <ThemeToggle className={'toolbar-button'} />
-        <GeolocateControlCustom className={'toolbar-button'} />
-        <ZoomControl className={'toolbar-button'} />
-        <MapRotation className={'toolbar-button'} />
+        <ThemeToggle />
+        <GeolocateControlCustom />
+        <ZoomControl />
+        <MapRotation />
       </BlurryBackground>
     </menu>
   );

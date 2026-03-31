@@ -1,15 +1,3 @@
-.sidebar-details-container {
-  height: 100%;
-  overflow-y: auto;
-  flex-grow: 1;
-  /* цвет ползунка / цвет дорожки */
-  scrollbar-color: #888 var(--textured-bg-color); 
-  /* толщина: auto, thin или none */
-  scrollbar-width: thin; 
-  padding-right: 1rem;
-  padding-bottom: 2rem;
-}
-
 .sidebar-details {
   display: flex;
   flex-direction: column;

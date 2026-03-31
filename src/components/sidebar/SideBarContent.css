@@ -1,8 +1,15 @@
 .sidebar-content__wrapper {
-  margin: 0.5rem;
-  padding: 0.5rem;
+  /* позиционирование чтобы не перекрывать рамку */
+  height: calc(100% - 2rem);
+
   display: flex;
-  width: auto;
   flex-direction: column;
-  height: calc(100% - 1rem);
+  overflow-y: auto;
+  scrollbar-color: #888888 var(--textured-bg-color); 
+  scrollbar-width: thin; 
+
+  padding: 1rem;
+  padding-top: 0;
+  margin-top: 1rem;
+  padding-bottom: 3rem;
 }

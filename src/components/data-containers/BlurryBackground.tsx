@@ -1,19 +1,19 @@
+import { forwardRef } from 'react';
 import './BlurryBackground.css';
 
-interface BlurryBackgroundProps {
+interface BlurryBackgroundProps extends React.HTMLAttributes<HTMLElement> {
   style?: React.CSSProperties;
   children: React.ReactNode;
   elementTag?: React.ElementType; 
   className?: string;
 }
 
-
 /**
  * Компонент-обертка для создания эффекта "жидкого стекла".
- * Поддерживает динамическую смену HTML-тега.
+ * Поддерживает динамическую смену HTML-тега и проброс рефа.
  * 
  * @example
- * <BlurryBackground elementTag="section" className="my-class">
+ * <BlurryBackground ref={myRef} elementTag="section" className="my-class">
  *   <p>Контент на стеклянном фоне</p>
  * </BlurryBackground>
  * 
@@ -22,21 +22,29 @@ interface BlurryBackgroundProps {
  * @param {React.ReactNode} props.children - Вложенные элементы.
  * @param {React.ElementType} [props.elementTag='div'] - HTML-тег или React-компонент, который будет использован как контейнер.
  * @param {string} [props.className] - Дополнительные CSS-классы для стилизации.
- * 
- * @returns {JSX.Element} Отрендеренный компонент с эффектом стекла.
  */
-export const BlurryBackground = ({
-  style = {}, 
-  children, 
-  elementTag: ElementTag = 'div', // Переименовываем в CamelCase внутри
-  className = ""
-}: BlurryBackgroundProps) => {
-  return (
-    <ElementTag 
-      className={`bg-Blurry-glass ${className}`}
-      style={style}
-    >
-      {children}
-    </ElementTag>
-  );
-};
+export const BlurryBackground = forwardRef<HTMLElement, BlurryBackgroundProps>(
+  (
+    {
+      style = {},
+      children,
+      elementTag: ElementTag = 'div',
+      className = "",
+      ...props // Собираем остальные стандартные атрибуты (id, onClick и т.д.)
+    },
+    ref
+  ) => {
+    return (
+      <ElementTag
+        {...props}
+        ref={ref}
+        className={`bg-Blurry-glass ${className}`}
+        style={style}
+      >
+        {children}
+      </ElementTag>
+    );
+  }
+);
+
+BlurryBackground.displayName = 'BlurryBackground';

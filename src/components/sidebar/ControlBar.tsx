@@ -3,60 +3,102 @@ import { ToolButton } from "../buttons/ToolButton";
 import { BlurryBackground } from "../data-containers/BlurryBackground";
 import { useFetchAllCharacters } from "../../hooks/useFetchCharacter";
 import locate from '../../assets/locate.png';
-import { useMap } from "react-map-gl/maplibre";
-import { homeIcon, shareIcon } from "../../svgIcons";
-import { useSideBarStore } from "../../store/useSideBarStore";
-import { useIsMobileStore } from "../../store/useIsMobileStore";
+import { filterIcon, findIcon, homeIcon, shareIcon } from "../../svgIcons";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { useRef, useState, type RefObject } from "react";
+import { OpenSearch } from "./OpenSearch";
+import { LocateCharacter } from "./LocateCharacter";
 
 
-const style = {
+const style: React.CSSProperties = {
+  position: 'sticky',
+  top: '0',
   display: 'flex',
-  padding: '0.2rem',
+  padding: '0.4rem',
   borderRadius: '100px',
   width: 'fit-content',
-  height: 'fit-content',
   gap: '0.2rem',
-  backgroundColor: 'rgba(124, 72, 1, 0.2)',
-  borderColor: 'var(--border-color-lighten)',
-  boxShadow: '0px 0px 2px 1px inset rgba(137, 112, 13, 0.61)'
+  zIndex: 2,
+  marginTop: '1rem',
 };
 
-export const ControlBar = () => {
+interface ControlBarProps {
+  wrapperRef: RefObject<HTMLDivElement | null>;
+  targetRef: RefObject<HTMLDivElement | null>;
+}
+
+export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
   const { id: characterID } = useParams();
   const { data: characters } = useFetchAllCharacters();
-  const { myMap } = useMap();
   const navigate = useNavigate();
   
-  const isOpen = useSideBarStore(state => state.isOpen);
-  const setIsOpen = useSideBarStore(state => state.setIsOpen);
-  const isMobile = useIsMobileStore(state => state.isMobile);
-  
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const [isPastTarget, setIsPastTarget] = useState(false);
+
+  const { scrollY } = useScroll({
+    container: wrapperRef 
+  });
+
+  useMotionValueEvent(scrollY, "change", () => {
+    if (stickyRef.current && targetRef.current && wrapperRef.current) {
+      const containerTop = wrapperRef.current.getBoundingClientRect().top;
+      const stickyTop = stickyRef.current.getBoundingClientRect().top - containerTop;
+      const targetTop = targetRef.current.getBoundingClientRect().top - containerTop;
+
+      const shouldBePast = stickyTop > targetTop;
+      if (shouldBePast !== isPastTarget) {
+        setIsPastTarget(shouldBePast);
+      }
+    }
+  });
   
   const onStartPage = () => {
     navigate('/')
   };
 
-  const onLocate = () => {
-    if (isMobile && isOpen) {
-      setIsOpen(false);
-    }
-    const coords = characters.find(char => char.id === Number(characterID))?.coords;
-    myMap?.flyTo({center: [coords?.lng as number, coords?.lat as number], zoom: 18});
-  };
 
   const onCopyHref = () => {
     navigator.clipboard.writeText(window.location.href);
   }
+
+  const currentStyle: React.CSSProperties = {
+  ...style,
+  backgroundColor: isPastTarget ? 'var(--blur-bg-Layered)' : 'var(--blur-bg)',
+  transition: 'background-color 0.3s ease',
+};
+
+  const currentCharacter = characters.find(character => character.id === Number(characterID));
   return (
-    <BlurryBackground style={style}>
-      <ToolButton title="На главную" onClick={onStartPage}>
-        { homeIcon }
-      </ToolButton>
-      <ToolButton title="Показать на карте" onClick={onLocate}>
-        <img style={{transform: 'scale(0.7)'}} src={locate} alt="" />
-      </ToolButton>
+    <BlurryBackground ref={stickyRef} style={currentStyle} className="sidebar-toolbar">
+      { currentCharacter && 
+      <>
+        <ToolButton title="На главную" onClick={onStartPage}>
+          { homeIcon }
+        </ToolButton>
+
+        <LocateCharacter>
+          {({onLocate}) => (
+          <ToolButton title="Показать на карте" onClick={onLocate}>
+            <img style={{transform: 'scale(0.7)'}} src={locate} alt="" />
+          </ToolButton>
+          )}
+        </LocateCharacter>
+      </>}
+
       <ToolButton title="Поделиться" onClick={onCopyHref}>
         { shareIcon }
+      </ToolButton>
+
+      <OpenSearch>
+        {({ open, isOpen }) => (
+          <ToolButton disabled={isOpen} onClick={open} title="Найти">
+            { findIcon }
+          </ToolButton>
+        )}
+      </OpenSearch>
+      
+      <ToolButton title="Отфильтровать">
+        { filterIcon }
       </ToolButton>
     </BlurryBackground>
   );

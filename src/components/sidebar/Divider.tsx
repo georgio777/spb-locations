@@ -1,8 +1,18 @@
+import { forwardRef } from 'react';
 import './Divider.css';
 
-export const Divider = () => {
-  return (
-    <div className='divider'>
-    </div>
-  );
-};
+// Типизируем: <ТипЭлемента, ТипПропсов>
+export const Divider = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  (props, ref) => {
+    return (
+      <div 
+        {...props}
+        ref={ref} 
+        className='divider'
+      >
+      </div>
+    );
+  }
+);
+
+Divider.displayName = 'Divider'; 

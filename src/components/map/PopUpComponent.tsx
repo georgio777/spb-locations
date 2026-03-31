@@ -11,13 +11,14 @@ interface PopUpComponentProps {
   onClose: () => void;
   anchor?: PositionAnchor;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 
-const PopUpComponent = ({popUpData, onClose, anchor = 'bottom-left', children}: PopUpComponentProps) => {
+const PopUpComponent = ({popUpData, style = {}, onClose, anchor = 'bottom-left', children}: PopUpComponentProps) => {
   return (
     <Popup 
-    style={{marginLeft: '1rem'}}
+    style={style}
     longitude={popUpData.lng} 
     latitude={popUpData.lat}
     anchor={anchor}

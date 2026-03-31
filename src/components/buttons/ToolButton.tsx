@@ -9,6 +9,7 @@ interface ToolButtonProps {
   onClick?: () => void;
   style?: React.CSSProperties;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 export const ToolButton = ({
@@ -18,10 +19,12 @@ export const ToolButton = ({
   className = '',
   ariaLabel = '',
   title = '',
-  role
+  role,
+  disabled = false
 }: ToolButtonProps) => {
   return (
     <button 
+    disabled={disabled}
     className={`tool-button ${className}`} 
     style={style} 
     onClick={onClick} 
