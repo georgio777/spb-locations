@@ -9,6 +9,7 @@ import { FetchLocations } from './FetchLocations';
 import { ErrorBoundary } from 'react-error-boundary';
 import { LocationsLoader } from '../loaders/Loaders';
 import { useNavigateToLocation } from '../../hooks/NavigateToLocation';
+import { FlyToFiltered } from './FlyToFiltered';
 
 const loaderStyle: React.CSSProperties = {
   position: 'fixed',
@@ -128,6 +129,7 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
             <FetchLocations />
           </Suspense>  
         </ErrorBoundary>
+        <FlyToFiltered />
       </Map>
     </>
   );

@@ -73,6 +73,7 @@ export const SearchComponent = () => {
         >
           <BlurryBackground className="search-input-wrapper">
             <input
+              id='search-input'
               onChange={onInput}
               value={inputValue}
               className="search-input"

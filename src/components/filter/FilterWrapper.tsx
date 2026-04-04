@@ -3,6 +3,8 @@ import type { CharacterFilterFields, Time } from '../../types/locations.types'
 import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import { useFilter } from '../../hooks/useFilter';
 import { Filter } from './Filter';
+import { useSideBarStore } from '../../store/useSideBarStore';
+import { useFilterStore } from '../../store/useFilterStore';
 
 interface FilterItem {
   mode: CharacterFilterFields;
@@ -25,6 +27,8 @@ export const FilterWrapper = () => {
   const [ mode, setMode ] = useState<CharacterFilterFields | null>(null);
   const [ value, setValue ] = useState<string | null>(null);
   const { data: characters } = useFetchAllCharacters();
+  const setSidebarOpen = useSideBarStore(state => state.setIsOpen);
+  const setFilterOpen = useFilterStore(state => state.setIsOpen);
   const filter = useFilter();
 
   const filterValues: FilterValues = useMemo(() => {
@@ -63,8 +67,10 @@ export const FilterWrapper = () => {
   useEffect(() => {
     if (mode && value) {
       filter(mode, value);
+      setSidebarOpen(false);
+      setFilterOpen(false);
     };
-  }, [mode, value, filter]);
+  }, [mode, value, filter, setSidebarOpen, setFilterOpen]);
 
   const setModeAndValue = useCallback((mode: CharacterFilterFields, value: string) => {
     setMode(mode);

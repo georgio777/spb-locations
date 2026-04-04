@@ -109,8 +109,8 @@ export const ClusterPin = React.memo(({count, chars, coords}: {count: number, ch
       </div>
       {popupData && 
         <PopUpComponent style={{marginLeft: '1rem'}} popUpData={popupData} onClose={() => setPopupData(null)}>
-          { chars?.map(char =>
-            <p key={char}>{char}</p>
+          { chars?.map((char, index) =>
+            <p key={`popup-${char}-${index}`}>{char}</p>
           )}
         </PopUpComponent>
       }
