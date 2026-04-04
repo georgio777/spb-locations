@@ -1,13 +1,16 @@
-import { useNavigate, useParams } from "react-router";
-import { ToolButton } from "../buttons/ToolButton";
-import { BlurryBackground } from "../data-containers/BlurryBackground";
-import { useFetchAllCharacters } from "../../hooks/useFetchCharacter";
-import locate from '../../assets/locate.png';
-import { filterIcon, findIcon, homeIcon, shareIcon } from "../../svgIcons";
+import { useParams } from "react-router";
+import { ToolButton } from "../../buttons/ToolButton";
+import { BlurryBackground } from "../../data-containers/BlurryBackground";
+import { useFetchAllCharacters } from "../../../hooks/useFetchCharacter";
+import locate from '../../../assets/locate.png';
+import { filterIcon, findIcon, homeIcon, shareIcon } from "../../../svgIcons";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useRef, useState, type RefObject } from "react";
 import { OpenSearch } from "./OpenSearch";
 import { LocateCharacter } from "./LocateCharacter";
+import { NavigateHome } from "./NavigateHome";
+import { useFilteredStore } from "../../../store/useFilteredStore";
+import { OpenFilter } from "./OpenFilter";
 
 
 const style: React.CSSProperties = {
@@ -30,8 +33,10 @@ interface ControlBarProps {
 export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
   const { id: characterID } = useParams();
   const { data: characters } = useFetchAllCharacters();
-  const navigate = useNavigate();
   
+  const filteredData = useFilteredStore(state => state.filteredData);
+  
+
   const stickyRef = useRef<HTMLDivElement>(null);
   const [isPastTarget, setIsPastTarget] = useState(false);
 
@@ -52,9 +57,6 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
     }
   });
   
-  const onStartPage = () => {
-    navigate('/')
-  };
 
 
   const onCopyHref = () => {
@@ -68,14 +70,20 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
 };
 
   const currentCharacter = characters.find(character => character.id === Number(characterID));
-  return (
-    <BlurryBackground ref={stickyRef} style={currentStyle} className="sidebar-toolbar">
-      { currentCharacter && 
-      <>
-        <ToolButton title="На главную" onClick={onStartPage}>
-          { homeIcon }
-        </ToolButton>
 
+  const showHome = filteredData || currentCharacter;
+  return (
+    <BlurryBackground elementTag="menu" ref={stickyRef} style={currentStyle} className="sidebar-toolbar">
+      { showHome && 
+        <NavigateHome>
+          {({onStartPage}) => (
+          <ToolButton title="На главную" onClick={onStartPage}>
+            { homeIcon }
+          </ToolButton>
+          )}
+        </NavigateHome>
+      }
+      { currentCharacter && 
         <LocateCharacter>
           {({onLocate}) => (
           <ToolButton title="Показать на карте" onClick={onLocate}>
@@ -83,7 +91,7 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
           </ToolButton>
           )}
         </LocateCharacter>
-      </>}
+      }
 
       <ToolButton title="Поделиться" onClick={onCopyHref}>
         { shareIcon }
@@ -97,9 +105,13 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
         )}
       </OpenSearch>
       
-      <ToolButton title="Отфильтровать">
-        { filterIcon }
-      </ToolButton>
+      <OpenFilter>
+        {({ open, isOpen }) => (
+        <ToolButton disabled={isOpen} onClick={open} title="Отфильтровать">
+          { filterIcon }
+        </ToolButton>
+        )}
+      </OpenFilter>
     </BlurryBackground>
   );
 };

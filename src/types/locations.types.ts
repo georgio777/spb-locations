@@ -7,6 +7,8 @@ type ImageUrl = string | null;
 
 export type Time = 'Дореволюционный' | 'Советский' | 'Современный';
 
+export type SearchKey = 'author' | 'fiction' | 'character';
+
 export interface Character {
   /** Уникальный ID (присваивается сервером) */
   id: number;
@@ -30,6 +32,7 @@ export interface Character {
   title: string;
 };
 
+export type CharacterFilterFields = Extract<keyof Character, 'character' | 'fiction' | 'author' | 'time'>;
 
 /**
  * Ответ api с данными о персонаже/локации

@@ -7,7 +7,7 @@ import './SideBarContent.css';
 import { SideBarHeader } from "./SideBarHeader";
 import { Divider } from "./Divider";
 import { NoCharacterSelected } from "./NoCharacterSelected";
-import { ControlBar } from "./ControlBar";
+import { ControlBar } from "./ControlBar/ControlBar";
 
 export const SideBarContent = React.memo(({id}: {id: string | undefined}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);

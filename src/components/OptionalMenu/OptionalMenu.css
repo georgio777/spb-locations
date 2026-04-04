@@ -1,0 +1,22 @@
+.optional-menu__wrapper {
+  transform-origin: left top;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.optional-menu__button {
+  cursor: pointer;
+  transform-origin: left;
+}
+
+.optional-menu-button__inner {
+  border-radius: 100px;
+  padding: .4rem;
+}
+
+@media (max-width: 1023px) {
+  .optional-menu__button {
+    transform-origin: right;
+  }
+}

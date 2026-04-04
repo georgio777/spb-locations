@@ -1,0 +1,15 @@
+.filter-wrapper {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.filter-inner {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}

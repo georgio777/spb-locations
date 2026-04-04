@@ -23,7 +23,7 @@ const getImg = (period: Time) => {
   }
 }
 
-const ImagePicker = ({ period = 'Дореволюционный', className }: {period?: Time, className: string}) => {
+export const ImagePicker = ({ period = 'Дореволюционный', className }: {period?: Time, className?: string}) => {
   return (
     <img 
     className={className} 

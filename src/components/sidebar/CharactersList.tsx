@@ -2,15 +2,18 @@ import { Link } from 'react-router';
 import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
 import './CharactersList.css';
+import { useFilteredStore } from '../../store/useFilteredStore';
 
 export const CharactersList = () => {
   const { data: characters } = useFetchAllCharacters();
+  const filteredData = useFilteredStore(state => state.filteredData);
 
+  const dataToShow = filteredData ?? characters;
   return (
     <ul className="characters-list">
       <h2>Выберите персонажа, чтобы увидеть детали:</h2>
       
-      { characters.map(character => (
+      { dataToShow.map(character => (
         <li key={`list-item-${character.id}`} className="characters-list__item">
           <Link 
             to={`/${character.slug}/${character.id}?navigate=true`} 

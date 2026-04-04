@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { SideBarContent } from './SideBarContent';
 import { useParams } from 'react-router';
 import { useSideBarStore } from '../../store/useSideBarStore';
+import { useFilteredStore } from '../../store/useFilteredStore';
 
 const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   const midX = isOpen ? 10 : 1;
@@ -89,6 +90,12 @@ export const Sidebar = () => {
   const setIsOpen = useSideBarStore(state => state.setIsOpen);
   const sideBarRef = useRef<HTMLElement | null>(null);
   const { id } = useParams<{ id: string | undefined }>();
+  const filteredLocations = useFilteredStore(state => state.filteredData);
+
+  // Закрываем на мобилках когда локации отфильтрованы
+  useEffect(() => {
+    if (filteredLocations && isMobile) setIsOpen(false);
+  }, [filteredLocations, setIsOpen, isMobile]);
 
   useEffect(() => {
     if (id) {

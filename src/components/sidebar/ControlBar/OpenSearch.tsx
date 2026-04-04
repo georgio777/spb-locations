@@ -1,4 +1,4 @@
-import { useSearchStore } from "../../store/useSearchStore";
+import { useSearchStore } from "../../../store/useSearchStore";
 
 interface OpenSearchProps {
   children: (props: { open: () => void; isOpen: boolean }) => React.ReactNode;

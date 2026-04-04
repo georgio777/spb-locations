@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSideBarStore } from '../../store/useSideBarStore';
-import { useIsMobileStore } from '../../store/useIsMobileStore';
+import { useSideBarStore } from '../../../store/useSideBarStore';
+import { useIsMobileStore } from '../../../store/useIsMobileStore';
 import { useParams } from 'react-router';
-import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
+import { useFetchAllCharacters } from '../../../hooks/useFetchCharacter';
 import { useMap } from 'react-map-gl/maplibre';
 
 interface LocateCharacterProps {
