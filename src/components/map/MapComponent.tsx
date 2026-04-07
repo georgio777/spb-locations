@@ -24,8 +24,8 @@ const mapStyles: Record<'light' | 'dark', string> = {
   dark: import.meta.env.VITE_MAPTILER_API_KEY_DARK
 };
 
-
-
+// 59.967440
+// 60.203693
 const sw = {lng: 29.506073, lat: 59.509628};
 const ne = {lng: 31.188448, lat: 60.203693};
 

@@ -10,3 +10,8 @@
   margin-top: 1rem;
   transition: background-color 0.3s ease,
 }
+
+.toast-href {
+  display: flex;
+  flex-direction: column;
+}

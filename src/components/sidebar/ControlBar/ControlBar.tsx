@@ -10,6 +10,7 @@ import { LocateCharacter } from "./LocateCharacter";
 import { NavigateHome } from "./NavigateHome";
 import { useFilteredStore } from "../../../store/useFilteredStore";
 import './ControlBar.css'
+import toast from "react-hot-toast";
 
 
 interface ControlBarProps {
@@ -46,8 +47,17 @@ export const ControlBar = memo(({ wrapperRef, targetRef }: ControlBarProps) => {
   
 
 
-  const onCopyHref = () => {
-    navigator.clipboard.writeText(window.location.href);
+  const onCopyHref = async () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      toast(<div className="toast-href"><span>Ссылка скопирована</span> <span>{window.location.href}</span></div>, { id: 'copyHref', duration: 2000});
+    } catch(error) {
+      if (error instanceof Error) {
+        toast(`Ошибка: ${error.message}`);
+      } else {
+        toast('Произошла неизвестная ошибка');
+      }
+    }
   }
 
   const currentStyle: React.CSSProperties = {
