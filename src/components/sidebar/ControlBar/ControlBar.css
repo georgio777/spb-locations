@@ -1,0 +1,12 @@
+.sidebar-toolbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  padding: 0.4rem;
+  border-radius: 100px;
+  width: fit-content;
+  gap: 0.2rem;
+  z-index: 2;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease,
+}

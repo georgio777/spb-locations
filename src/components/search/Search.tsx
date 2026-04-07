@@ -1,6 +1,7 @@
 import type { Characters, SearchKey } from '../../types/locations.types';
 import Fuse from 'fuse.js';
 import { SearchResultsComponent } from './SearchResults';
+import { memo } from 'react';
 
 export interface Result {
   key: SearchKey;
@@ -64,10 +65,10 @@ const search = (inputValue: string, characters: Characters) => {
   return sorted.length > 0 ? sorted : 'no-results';
 };
 
-export const Search = ({ characters, inputValue}: SearchProps) => {
+export const Search = memo(({ characters, inputValue}: SearchProps) => {
   const results: SearchResults | NoResults | null = search(inputValue, characters);
   if (results === 'no-results') return <p>Ничего не найдено</p>;
   if (results === null) return null;
 
   return <SearchResultsComponent searchResults={results} />;
-}
+});

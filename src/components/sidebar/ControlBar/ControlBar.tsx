@@ -3,34 +3,21 @@ import { ToolButton } from "../../buttons/ToolButton";
 import { BlurryBackground } from "../../data-containers/BlurryBackground";
 import { useFetchAllCharacters } from "../../../hooks/useFetchCharacter";
 import locate from '../../../assets/locate.png';
-import { filterIcon, findIcon, homeIcon, shareIcon } from "../../../svgIcons";
+import { homeIcon, shareIcon } from "../../../svgIcons";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import { useRef, useState, type RefObject } from "react";
-import { OpenSearch } from "./OpenSearch";
+import { memo, useRef, useState, type RefObject } from "react";
 import { LocateCharacter } from "./LocateCharacter";
 import { NavigateHome } from "./NavigateHome";
 import { useFilteredStore } from "../../../store/useFilteredStore";
-import { OpenFilter } from "./OpenFilter";
+import './ControlBar.css'
 
-
-const style: React.CSSProperties = {
-  position: 'sticky',
-  top: '0',
-  display: 'flex',
-  padding: '0.4rem',
-  borderRadius: '100px',
-  width: 'fit-content',
-  gap: '0.2rem',
-  zIndex: 2,
-  marginTop: '1rem',
-};
 
 interface ControlBarProps {
   wrapperRef: RefObject<HTMLDivElement | null>;
   targetRef: RefObject<HTMLDivElement | null>;
 }
 
-export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
+export const ControlBar = memo(({ wrapperRef, targetRef }: ControlBarProps) => {
   const { id: characterID } = useParams();
   const { data: characters } = useFetchAllCharacters();
   
@@ -64,9 +51,7 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
   }
 
   const currentStyle: React.CSSProperties = {
-  ...style,
   backgroundColor: isPastTarget ? 'var(--blur-bg-Layered)' : 'var(--blur-bg)',
-  transition: 'background-color 0.3s ease',
 };
 
   const currentCharacter = characters.find(character => character.id === Number(characterID));
@@ -96,22 +81,6 @@ export const ControlBar = ({ wrapperRef, targetRef }: ControlBarProps) => {
       <ToolButton title="Поделиться" onClick={onCopyHref}>
         { shareIcon }
       </ToolButton>
-
-      <OpenSearch>
-        {({ open, isOpen }) => (
-          <ToolButton disabled={isOpen} onClick={open} title="Найти">
-            { findIcon }
-          </ToolButton>
-        )}
-      </OpenSearch>
-      
-      <OpenFilter>
-        {({ open, isOpen }) => (
-        <ToolButton disabled={isOpen} onClick={open} title="Отфильтровать">
-          { filterIcon }
-        </ToolButton>
-        )}
-      </OpenFilter>
     </BlurryBackground>
   );
-};
+});

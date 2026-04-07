@@ -14,14 +14,12 @@ const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   return (
     <svg 
       width="40" 
-      height="64" // Высота контейнера (с запасом под stroke)
+      height="64" 
       viewBox="0 0 20 64" 
       fill="none"
       style={{ cursor: 'pointer' }}
     >
       <motion.path
-        // Анимируем строку пути (d)
-        // M (начало сверху) -> L (центр) -> L (конец снизу)
         initial={false} 
         animate={{ 
           d: `M${edgeX} 2 L${midX} 32 L${edgeX} 62` 

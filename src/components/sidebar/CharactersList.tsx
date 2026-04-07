@@ -3,8 +3,9 @@ import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
 import './CharactersList.css';
 import { useFilteredStore } from '../../store/useFilteredStore';
+import { memo } from 'react';
 
-export const CharactersList = () => {
+export const CharactersList = memo(() => {
   const { data: characters } = useFetchAllCharacters();
   const filteredData = useFilteredStore(state => state.filteredData);
 
@@ -27,4 +28,4 @@ export const CharactersList = () => {
       ))}
     </ul>
   );
-};
+});

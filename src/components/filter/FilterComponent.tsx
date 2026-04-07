@@ -21,5 +21,5 @@ export const FilterComponent = () => {
           </nav>
         }
     </AnimatePresence>
-  )
-}
+  );
+};

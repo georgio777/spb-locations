@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { memo, useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
 import { useSearchStore } from '../../store/useSearchStore';
@@ -34,7 +34,7 @@ const resultsVariants = {
   }
 }
 
-export const SearchComponent = () => {
+export const SearchComponent = memo(() => {
   const isOpen = useSearchStore(state => state.isOpen);
   const setClosed = useSearchStore(state => state.setClosed);
   const [inputValue, setInputValue] = useState<string>('');
@@ -102,4 +102,4 @@ export const SearchComponent = () => {
       )}
     </AnimatePresence>
   );
-};
+});

@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import type { Character } from '../../types/locations.types';
 import { HeaderImg } from './HeaderImg';
 import './SideBarHeader.css';
 import { useParams } from 'react-router';
 
-export const SideBarHeader = () => {
+export const SideBarHeader = memo(() => {
   const { id } = useParams()
   const { data: characters } = useFetchAllCharacters();
 
@@ -21,6 +22,7 @@ export const SideBarHeader = () => {
           { !currentCharacter
             ? <>
                 <h1 className='sidebar-header__heading'>Литературные локации</h1>
+                <p>Карта литературных мест Петербурга из произведений Достоевского, Гоголя, Пушкина и других классиков.</p>
               </>
             : (
             <>
@@ -40,4 +42,4 @@ export const SideBarHeader = () => {
         </div>
     </header>
   );
-};
+});

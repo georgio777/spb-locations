@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { useSideBarStore } from '../../../store/useSideBarStore';
 import { useIsMobileStore } from '../../../store/useIsMobileStore';
 import { useParams } from 'react-router';
@@ -9,7 +9,7 @@ interface LocateCharacterProps {
   children: (props: { onLocate: () => void }) => React.ReactNode;
 }
 
-export const LocateCharacter = ({ children }: LocateCharacterProps) => {
+export const LocateCharacter = memo(({ children }: LocateCharacterProps) => {
   const { id: characterID } = useParams();
   const { data: characters } = useFetchAllCharacters();
   const { myMap } = useMap();
@@ -28,4 +28,4 @@ export const LocateCharacter = ({ children }: LocateCharacterProps) => {
     myMap?.flyTo({center: [coords?.lng as number, coords?.lat as number], zoom: 18});
   };
   return <>{children({ onLocate: onLocate })}</>;
-}
+});

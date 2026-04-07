@@ -1,9 +1,9 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import type { CharacterDescriptions } from '../../types/locations.types';
 import './Details.css';
 import { Divider } from './Divider';
 
-export const Details = ({ details }: { details: CharacterDescriptions }) => {
+export const Details = memo(({ details }: { details: CharacterDescriptions }) => {
 
   return (
     <main  className="sidebar-details-container">
@@ -46,4 +46,4 @@ export const Details = ({ details }: { details: CharacterDescriptions }) => {
       ))}
     </main>
   );
-};
+});

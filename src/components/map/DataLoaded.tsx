@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { Marker, useMap } from 'react-map-gl/maplibre';
 import { ClusterPin, Pin } from './Pin';
 import useSupercluster from 'use-supercluster';
@@ -144,4 +144,4 @@ const DataLoaded = ({allCharacters}: {allCharacters: Characters}) => {
 
 }
 
-export default React.memo(DataLoaded);
+export default memo(DataLoaded);

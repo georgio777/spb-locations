@@ -1,6 +1,6 @@
-import { Layer, Map, NavigationControl, Source } from 'react-map-gl/maplibre';
+import { Layer, Map, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Suspense, useCallback, useState } from 'react';
+import { memo, Suspense, useCallback, useState } from 'react';
 import type {MapEvent, MapLayerMouseEvent, MapRef, LngLatBoundsLike} from 'react-map-gl/maplibre';
 import { useMapStore } from '../../store/useMapStore';
 import PopUpComponent, { type PopupData } from './PopUpComponent';
@@ -51,7 +51,7 @@ interface MapComponentProps {
   initialZoom: number;
 }
 
-const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
+const MapComponent = memo(({initialCoords, initialZoom}: MapComponentProps) => {
   const [ popUpData, setPopupData ] = useState<PopupData | null>(null);
   const theme = useThemeStore(state => state.theme);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -86,6 +86,7 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
       lng: e.lngLat.lng
     });
   }, []);
+  
 
   return (
     <>
@@ -117,14 +118,13 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
             />
           </Source>)
         } 
-        <NavigationControl style={{ display: 'none'}} />
         { popUpData && 
           <PopUpComponent anchor='bottom' popUpData={popUpData} onClose={() => setPopupData(null)}>
             <p>Широта: {popUpData.lat}</p>
             <p>Долгота: {popUpData.lng}</p>
           </PopUpComponent>
         }
-        <ErrorBoundary fallback={<div>Упс! Не удалось загрузить персонажей. Попробуйте позже.</div>}>
+        <ErrorBoundary fallback={<div>Не удалось загрузить персонажей. Попробуйте позже.</div>}>
           <Suspense fallback={<LocationsLoader styles={loaderStyle}><span>Загрузка локаций ...</span></LocationsLoader>}>
             <FetchLocations />
           </Suspense>  
@@ -133,6 +133,6 @@ const MapComponent = ({initialCoords, initialZoom}: MapComponentProps) => {
       </Map>
     </>
   );
-};
+});
 
 export default MapComponent;

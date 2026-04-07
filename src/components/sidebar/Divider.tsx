@@ -1,8 +1,7 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import './Divider.css';
 
-// Типизируем: <ТипЭлемента, ТипПропсов>
-export const Divider = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export const Divider = memo(forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   (props, ref) => {
     return (
       <div 
@@ -13,6 +12,6 @@ export const Divider = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
       </div>
     );
   }
-);
+));
 
 Divider.displayName = 'Divider'; 

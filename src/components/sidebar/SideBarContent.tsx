@@ -25,7 +25,7 @@ export const SideBarContent = React.memo(({id}: {id: string | undefined}) => {
       <ControlBar wrapperRef={wrapperRef} targetRef={targetRef}/>
       <Divider ref={targetRef}/>
       { id ? (
-        <ErrorBoundary fallback={<div>Упс! Не удалось загрузить детали. Попробуйте позже.</div>}>
+        <ErrorBoundary fallback={<div>Не удалось загрузить детали. Попробуйте позже.</div>}>
           <Suspense fallback={<LocationsLoader >Загрузка описаний ...</LocationsLoader>}>
             <FetchDetails id={id}/>
           </Suspense>

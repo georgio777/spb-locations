@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import './BlurryBackground.css';
 
 interface BlurryBackgroundProps extends React.HTMLAttributes<HTMLElement> {
@@ -23,7 +23,7 @@ interface BlurryBackgroundProps extends React.HTMLAttributes<HTMLElement> {
  * @param {React.ElementType} [props.elementTag='div'] - HTML-тег или React-компонент, который будет использован как контейнер.
  * @param {string} [props.className] - Дополнительные CSS-классы для стилизации.
  */
-export const BlurryBackground = forwardRef<HTMLElement, BlurryBackgroundProps>(
+export const BlurryBackground = memo(forwardRef<HTMLElement, BlurryBackgroundProps>(
   (
     {
       style = {},
@@ -45,6 +45,6 @@ export const BlurryBackground = forwardRef<HTMLElement, BlurryBackgroundProps>(
       </ElementTag>
     );
   }
-);
+));
 
 BlurryBackground.displayName = 'BlurryBackground';

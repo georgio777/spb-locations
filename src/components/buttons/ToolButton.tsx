@@ -1,4 +1,4 @@
-import React from 'react';
+import{ memo } from 'react';
 import './ToolButton.css';
 
 interface ToolButtonProps {
@@ -12,7 +12,7 @@ interface ToolButtonProps {
   disabled?: boolean;
 }
 
-export const ToolButton = ({
+export const ToolButton = memo(({
   children, 
   onClick = () => {},
   style = {},
@@ -35,4 +35,4 @@ export const ToolButton = ({
       {children}
     </button>
   );
-};
+});

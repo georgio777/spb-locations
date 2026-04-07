@@ -1,6 +1,6 @@
-import React from 'react';
+import { memo } from 'react';
 import './HeaderImg.css';
 
-export const HeaderImg = React.memo(() => {
+export const HeaderImg = memo(() => {
   return <div className="header-img-container"></div>;
 });

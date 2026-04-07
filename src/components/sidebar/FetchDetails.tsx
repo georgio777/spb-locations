@@ -1,8 +1,8 @@
-import React from 'react';
+import { memo } from 'react';
 import { useFetchCharacterDetails } from '../../hooks/useFetchCharacter';
 import { Details } from './Details';
 
-export const FetchDetails = React.memo(({id} : { id: string }) => {
+export const FetchDetails = memo(({id} : { id: string }) => {
 
   const { data: details } = useFetchCharacterDetails(Number(id));
   

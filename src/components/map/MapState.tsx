@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 import MapComponent from './MapComponent';
 import { CENTER_COORDS_KEY, ZOOM_KEY } from '../../config/config';
 import { storage } from '../../utils/storage';
 
-export const MapState = React.memo(() => {
+export const MapState = memo(() => {
   const { myMap } = useMap();
 
   // Читаем один раз при инициализации компонента
