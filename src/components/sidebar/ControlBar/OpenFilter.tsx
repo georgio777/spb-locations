@@ -1,19 +1,17 @@
 import React from 'react';
-import { useFilterStore } from '../../../store/useFilterStore';
+import { useUtilStore } from '../../../store/useUtilStore';
 
 interface OpenFilterProps {
-  children: (props: { open: () => void; isOpen: boolean }) => React.ReactNode;
+  children: (props: { open: () => void; }) => React.ReactNode;
 }
 
 export const OpenFilter = ({ children }: OpenFilterProps) => {
-  const isOpen = useFilterStore(state => state.isOpen);
-  const setIsOpen = useFilterStore(state => state.setIsOpen);
+  const setActivePanel = useUtilStore(state => state.setActivePanel)
+  
 
   const handleOpen = () => {
-    if (!isOpen) {
-      setIsOpen(true);
-    }
+    setActivePanel('filter')
   };
 
-  return <>{children({ open: handleOpen, isOpen })}</>;
+  return <>{children({ open: handleOpen })}</>;
 };

@@ -4,7 +4,7 @@ import { useFetchAllCharacters } from '../../hooks/useFetchCharacter';
 import { useFilter } from '../../hooks/useFilter';
 import { Filter } from './Filter';
 import { useSideBarStore } from '../../store/useSideBarStore';
-import { useFilterStore } from '../../store/useFilterStore';
+import { useUtilStore } from '../../store/useUtilStore';
 
 interface FilterItem {
   mode: CharacterFilterFields;
@@ -28,7 +28,9 @@ export const FilterWrapper = () => {
   const [ value, setValue ] = useState<string | null>(null);
   const { data: characters } = useFetchAllCharacters();
   const setSidebarOpen = useSideBarStore(state => state.setIsOpen);
-  const setFilterOpen = useFilterStore(state => state.setIsOpen);
+  // const setFilterOpen = useFilterStore(state => state.setIsOpen);
+  const setActivePanel = useUtilStore(state => state.setActivePanel)
+  
   const filter = useFilter();
 
   const filterValues: FilterValues = useMemo(() => {
@@ -68,9 +70,9 @@ export const FilterWrapper = () => {
     if (mode && value) {
       filter(mode, value);
       setSidebarOpen(false);
-      setFilterOpen(false);
+      setActivePanel(null);
     };
-  }, [mode, value, filter, setSidebarOpen, setFilterOpen]);
+  }, [mode, value, filter, setSidebarOpen, setActivePanel]);
 
   const setModeAndValue = useCallback((mode: CharacterFilterFields, value: string) => {
     setMode(mode);

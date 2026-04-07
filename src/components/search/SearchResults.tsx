@@ -1,13 +1,16 @@
 import type { SearchResults } from './Search';
 import type { SearchKey } from '../../types/locations.types';
 import { useFilter } from '../../hooks/useFilter';
+import { useUtilStore } from '../../store/useUtilStore';
 
 
 const ListItem = ({resultKey, resultValue}: {resultKey: SearchKey, resultValue: string}) => {
   const filterLocations = useFilter();
+  const setActivePanel = useUtilStore(state => state.setActivePanel);
 
   const onClick = () => {
     filterLocations(resultKey, resultValue);
+    setActivePanel(null);
   };
 
   const translate = (val: SearchKey) => {

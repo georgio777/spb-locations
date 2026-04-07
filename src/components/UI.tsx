@@ -1,9 +1,8 @@
 import { Sidebar } from "./sidebar/Sidebar";
-import { SearchComponent } from "./search/SearchComponent";
 import { ToolBar } from "./Tools/ToolBar";
 import './UI.css';
 import { OptionalMenu } from "./OptionalMenu/OptionalMenu";
-import { FilterComponent } from "./filter/FilterComponent";
+import { UtilComponents } from "./UtilComponents";
 
 export const UI = () => {
   return (
@@ -11,8 +10,7 @@ export const UI = () => {
       <ToolBar />
       <OptionalMenu />
       <Sidebar />
-      <SearchComponent />
-      <FilterComponent />
+      <UtilComponents />
     </div>
   );
 };

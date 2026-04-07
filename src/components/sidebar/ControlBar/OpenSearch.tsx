@@ -1,18 +1,15 @@
-import { useSearchStore } from "../../../store/useSearchStore";
+import { useUtilStore } from "../../../store/useUtilStore";
 
 interface OpenSearchProps {
-  children: (props: { open: () => void; isOpen: boolean }) => React.ReactNode;
+  children: (props: { open: () => void; }) => React.ReactNode;
 }
 
 export const OpenSearch = ({ children }: OpenSearchProps) => {
-  const isOpen = useSearchStore(state => state.isOpen);
-  const setOpen = useSearchStore(state => state.setOpen);
+  const setActivePanel = useUtilStore(state => state.setActivePanel)
 
   const handleOpen = () => {
-    if (!isOpen) {
-      setOpen();
-    }
+    setActivePanel('search')
   };
 
-  return <>{children({ open: handleOpen, isOpen })}</>;
+  return <>{children({ open: handleOpen })}</>;
 };

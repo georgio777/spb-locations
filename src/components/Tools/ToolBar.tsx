@@ -20,15 +20,15 @@ export const ToolBar = () => {
       </BlurryBackground>
       <BlurryBackground className='tool-bar-container'>
         <OpenSearch>
-          {({ open, isOpen }) => (
-            <ToolButton disabled={isOpen} onClick={open} title="Найти">
+          {({ open }) => (
+            <ToolButton onClick={open} title="Найти">
               { findIcon }
             </ToolButton>
           )}
         </OpenSearch>
         <OpenFilter>
-          {({ open, isOpen }) => (
-          <ToolButton disabled={isOpen} onClick={open} title="Отфильтровать">
+          {({ open }) => (
+          <ToolButton onClick={open} title="Отфильтровать">
             { filterIcon }
           </ToolButton>
           )}
