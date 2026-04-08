@@ -1,6 +1,6 @@
 import './Sidebar.css';
 import { useIsMobileStore } from '../../store/useIsMobileStore';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
 import { motion } from 'framer-motion';
 import { SideBarContent } from './SideBarContent';
@@ -38,7 +38,7 @@ const ToggleArrowVertical = ({isOpen}: { isOpen: boolean}) => {
   );
 };
 
-const ToggleButton = ({isMobile} : {isMobile: boolean}) => {
+const ToggleButton = memo(({isMobile} : {isMobile: boolean}) => {
   const isOpen = useSideBarStore(state => state.isOpen);
   const setIsOpen = useSideBarStore(state => state.setIsOpen);
 
@@ -66,7 +66,7 @@ const ToggleButton = ({isMobile} : {isMobile: boolean}) => {
         </BlurryBackground>
     </button>
   )
-};
+});
 
 const getStyle = (isMobile: boolean, isOpen: boolean) => {
   if (isMobile) {

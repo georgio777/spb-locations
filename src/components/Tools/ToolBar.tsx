@@ -1,8 +1,8 @@
 import { filterIcon, findIcon } from '../../svgIcons';
 import { ToolButton } from '../buttons/ToolButton';
 import { BlurryBackground } from '../data-containers/BlurryBackground';
-import { OpenFilter } from '../sidebar/ControlBar/OpenFilter';
-import { OpenSearch } from '../sidebar/ControlBar/OpenSearch';
+import { OpenFilter } from './OpenFilter';
+import { OpenSearch } from './OpenSearch';
 import { GeolocateControlCustom } from './GeolocateControlCustom';
 import { MapRotation } from './MapRotation';
 import { ThemeToggle } from './ThemeToggle';
@@ -20,15 +20,15 @@ export const ToolBar = () => {
       </BlurryBackground>
       <BlurryBackground className='tool-bar-container'>
         <OpenSearch>
-          {({ open }) => (
-            <ToolButton onClick={open} title="Найти">
+          {({ open, activePanel }) => (
+            <ToolButton onClick={open} disabled={activePanel} title="Найти">
               { findIcon }
             </ToolButton>
           )}
         </OpenSearch>
         <OpenFilter>
-          {({ open }) => (
-          <ToolButton onClick={open} title="Отфильтровать">
+          {({ open, activePanel }) => (
+          <ToolButton onClick={open} disabled={activePanel} title="Отфильтровать">
             { filterIcon }
           </ToolButton>
           )}

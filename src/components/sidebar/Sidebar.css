@@ -38,13 +38,20 @@
 }
 
 .sidebar-toggle-button {
-  position: fixed;
+  /* position: fixed;
   right: 0;
-  top: 20%;
+  top: 50%;
   cursor: pointer;
   height: 80px;
   width: 30px;
-  margin-top: -40px;
+  margin-top: -40px; */
+  width: 30px;
+  height: 80px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: rotate(0) translateY(-50%);
+  transform-origin: right center;
 }
 
 .sidebar-toggle-blurry {
@@ -54,11 +61,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transform-origin: right center;
   transition: transform .2s;
 }
 
 .sidebar-toggle-blurry:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .sidebar-toggle-blurry svg {
@@ -73,7 +81,7 @@
     height: 100dvh;
   }
   .sidebar-toggle-button {
-    position: fixed;
+    /* position: fixed;
     right: auto;
     left: 50%;
     top: auto;
@@ -81,7 +89,13 @@
     margin-top: 0;
     margin-left: -15px;
     margin-bottom: -25px;
-    transform: rotate(90deg);
+    transform: rotate(90deg); */
+    bottom: 0;
+    top: auto;
+    right: 50%;
+    transform-origin: bottom right;
+    transform: translateY(0) translateX(50%) rotate(90deg);
+    margin-right: 55px;
   }
 }
 

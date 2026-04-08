@@ -18,6 +18,7 @@
 
 .loader-wrapper h1 {
   color: var(--red);
+  font-size: 2rem;
 }
 
 .loader-wrapper p {
@@ -53,6 +54,12 @@
   animation: animShadow 1s ease-in-out alternate infinite;
   transform-origin: right bottom;
   will-change: transform;
+}
+
+@media (max-width: 1023px) {
+  .loader-wrapper h1 {
+    font-size: 1.4rem;
+  }
 }
 
 @keyframes animPin {
