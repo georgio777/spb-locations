@@ -21,7 +21,10 @@ export const ToolBar = () => {
       <BlurryBackground className='tool-bar-container'>
         <OpenSearch>
           {({ open, activePanel }) => (
-            <ToolButton onClick={open} disabled={activePanel} title="Найти">
+            <ToolButton 
+            onClick={open} 
+            disabled={activePanel} 
+            title="Найти">
               { findIcon }
             </ToolButton>
           )}

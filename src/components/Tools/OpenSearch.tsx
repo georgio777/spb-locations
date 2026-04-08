@@ -9,7 +9,9 @@ export const OpenSearch = ({ children }: OpenSearchProps) => {
   const activePanel = useUtilStore(state => state.activePanel);
 
   const handleOpen = () => {
-    setActivePanel('search')
+    if (activePanel !== 'search')  {
+      setActivePanel('search');
+    }
   };
 
   return <>{children({ open: handleOpen, activePanel: activePanel === 'search' })}</>;

@@ -11,8 +11,14 @@ export const useClickOutside = <T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     const handleClick = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node;
+      
+      // ПРОВЕРКА: игнорируем клики по disabled элементам
+      const targetElement = target as HTMLElement;
+      if (targetElement.hasAttribute?.('disabled') || 
+          (targetElement.closest?.('[disabled]'))) {
+        return;
+      }
 
-      // Если реф пустой или клик был внутри элемента — ничего не делаем
       if (!ref.current || ref.current.contains(target)) {
         return;
       }
@@ -20,13 +26,10 @@ export const useClickOutside = <T extends HTMLElement = HTMLElement>(
       callback();
     };
 
-    // Добавляем слушатели для мыши и тач-падов (мобилки)
-    document.addEventListener('mousedown', handleClick);
-    document.addEventListener('touchstart', handleClick);
+    document.addEventListener('click', handleClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleClick);
-      document.removeEventListener('touchstart', handleClick);
+      document.removeEventListener('click', handleClick);
     };
   }, [ref, callback]);
 };

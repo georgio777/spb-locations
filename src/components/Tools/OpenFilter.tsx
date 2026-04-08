@@ -6,11 +6,11 @@ interface OpenFilterProps {
 }
 
 export const OpenFilter = ({ children }: OpenFilterProps) => {
-  const setActivePanel = useUtilStore(state => state.setActivePanel)
+  const setActivePanel = useUtilStore(state => state.setActivePanel);
   const activePanel = useUtilStore(state => state.activePanel);
-
+  
   const handleOpen = () => {
-    setActivePanel('filter')
+    if (activePanel !== 'filter') setActivePanel('filter');
   };
 
   return <>{children({ open: handleOpen, activePanel: activePanel === 'filter' })}</>;
